@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-lg-4">
                 <div class="bg-dark">
-                    <h4>Hello World</h4>
+                    <h4>Hello Wijaya</h4>
                 </div>
             </div>
         </div>
