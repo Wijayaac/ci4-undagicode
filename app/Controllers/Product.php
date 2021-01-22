@@ -52,7 +52,6 @@ class Product extends BaseController
     {
         if ($this->modelProduct->delete($id))
         {
-
             return redirect()->to('/');
         }
         else
@@ -67,8 +66,9 @@ class Product extends BaseController
         ];
         return view('Edit', $data);
     }
-    public function update($id)
+    public function update()
     {
+        $id   = $this->request->getVar('id');
         $data = [
             'text'       => $this->request->getVar('text'),
             'checkbox'   => $this->request->getVar('checkbox'),

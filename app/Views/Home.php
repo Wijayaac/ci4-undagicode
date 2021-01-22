@@ -23,7 +23,7 @@
         </thead>
         <tbody>
             <?php foreach ($product->getResult() as $item) : ?>
-                <tr id="master-data">
+                <tr class="master-data">
                     <td><?= $item->text ?></td>
                     <td><?= $item->checkbox ?></td>
                     <td><?= $item->date ?></td>
@@ -36,7 +36,7 @@
                     <td><?= $item->url ?></td>
                     <td>
                         <a id="btn-edit" href="javascript:;" data="<?= site_url('product/edit/' . $item->id) ?>" class="btn btn-outline-warning btn-sm"><i class="fas fa-magic fa-xs"></i> </a>
-                        <a id="btn-delete" href="javascript:;" data="<?= site_url('product/delete/' . $item->id) ?>" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash fa-xs"></i></a>
+                        <a id="btn-trash" href="<?= site_url('product/delete/' . $item->id) ?>" data="" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash fa-xs"></i></a>
                     </td>
                 </tr>
             <?php endforeach ?>
@@ -62,7 +62,7 @@
         });
 
     });
-    $('#master-data').on('click', '#btn-edit', function() {
+    $('.master-data').on('click', '#btn-edit', function() {
         var editUrl = $(this).attr('data');
         $.ajax({
             type: "post",
@@ -75,19 +75,6 @@
                 alert('Modal Error');
             }
         });
-
-    });
-    $('#master-data').on('click', '#btn-delete', function() {
-        var addUrl = $(this).attr('data');
-        $.ajax({
-            type: "post",
-            url: addUrl,
-            success: function(response) {},
-            error: function(response) {
-                alert(response);
-            }
-        });
-
     });
 </script>
 <?= $this->endSection() ?>

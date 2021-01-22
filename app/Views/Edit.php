@@ -10,12 +10,10 @@
                                 </div>
 
                                 <!-- Modal body -->
-                                <form action="<?= site_url(); ?>/product/save" method="post">
+                                <form action="<?= site_url(); ?>/product/update/" method="post">
                                     <div class="modal-body">
                                         <?php foreach ($product->getResult() as $item) : ?>
-                                            <div class="form-group">
-                                                <input type="hidden" name="id" value="<?= $item->id ?>" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                                            </div>
+                                            <input type="hidden" name="id" value="<?= $item->id ?>">
                                             <div class="form-group">
                                                 <label for="">Text</label>
                                                 <input type="text" name="text" id="" class="form-control" value="<?= $item->text ?>" placeholder="" aria-describedby="helpId">
@@ -35,11 +33,11 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="">Image</label>
-                                                <input type="file" name="image" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                                                <input type="file" name="image" id="" class="form-control" files="<?= $item->image ?>" aria-describedby="helpId">
                                             </div>
                                             <div class="form-group">
                                                 <label for="textbox">Text Area</label>
-                                                <textarea class="form-control" name="textbox" aria-valuenow="<?= $item->textbox ?>" id="textbox" rows="3"></textarea>
+                                                <textarea class="form-control" name="textbox" id="textbox" rows="3"><?= $item->textbox ?></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label for="">Price</label>
