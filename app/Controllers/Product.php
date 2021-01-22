@@ -21,7 +21,7 @@ class Product extends BaseController
     }
     public function add()
     {
-        return view('Create');
+        return view('Add');
     }
     public function save()
     {
@@ -41,7 +41,7 @@ class Product extends BaseController
         // var_dump($data);
         if ($this->modelProduct->insert($data))
         {
-            echo "Success";
+            return redirect()->to('/');
         }
         else
         {
@@ -52,7 +52,8 @@ class Product extends BaseController
     {
         if ($this->modelProduct->delete($id))
         {
-            echo "Success";
+
+            return redirect()->to('/');
         }
         else
         {
@@ -64,7 +65,6 @@ class Product extends BaseController
         $data = [
             'product' => $this->modelProduct->getProduct($id),
         ];
-
         return view('Edit', $data);
     }
     public function update($id)
@@ -84,7 +84,7 @@ class Product extends BaseController
 
         if ($this->modelProduct->update($id, $data))
         {
-            echo "Success";
+            return redirect()->to('/');
         }
         else
         {

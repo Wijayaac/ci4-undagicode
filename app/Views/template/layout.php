@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="<?= base_url() ?>/assets/css/custom.css">
 
     <link rel="stylesheet" href="<?= base_url() ?>/assets/icon/css/all.css">
+    <!-- jQuery bootstrap -->
+    <script src="<?= base_url() ?>/assets/js/jquery-3.5.1.min.js"></script>
+    <!-- end jQuery bootstrap -->
 </head>
 
 <body>
