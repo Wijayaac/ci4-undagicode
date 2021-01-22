@@ -25,20 +25,31 @@ class Product extends BaseController
     }
     public function save()
     {
+        $imageFile =    $this->request->getFile('image');
+        if ($imageFile->getError() == 4)
+        {
+            $imageName = 'untitled.png';
+        }
+        else
+        {
+            $imageName = $imageFile->getRandomName();
+            $imageFile->move('assets/images/', $imageName);
+        }
+
         $data = [
             'id'         => $this->request->getVar('id'),
             'text'       => $this->request->getVar('text'),
             'checkbox'   => $this->request->getVar('checkbox'),
             'date'       => $this->request->getVar('date'),
             'email'      => $this->request->getVar('email'),
-            'image'      => $this->request->getVar('image'),
+            'image'      => $imageName,
             'textbox'    => $this->request->getVar('textbox'),
             'price'      => $this->request->getVar('price'),
             'password'   => $this->request->getVar('password'),
             'radio'      => $this->request->getVar('radio'),
             'url'        => $this->request->getVar('url'),
         ];
-        // var_dump($data);
+
         if ($this->modelProduct->insert($data))
         {
             return redirect()->to('/');
@@ -50,13 +61,15 @@ class Product extends BaseController
     }
     public function delete($id)
     {
+        $dataImage = $this->modelProduct->getProduct($id)->getResult('array');
         if ($this->modelProduct->delete($id))
         {
+            unlink('assets/images/' . $dataImage[0]['image']);
             return redirect()->to('/');
         }
         else
         {
-            echo "Fail";
+            echo "Error";
         }
     }
     public function edit($id)
@@ -68,13 +81,37 @@ class Product extends BaseController
     }
     public function update()
     {
-        $id   = $this->request->getVar('id');
+        // get old data so we can compare with new data
+        $oldId      = $this->request->getVar('id');
+        $oldData    = $this->modelProduct->getProduct($oldId);
+        $oldImage   = $oldData->getResult('array')[0]['image'];
+        $imageFile  = $this->request->getFile('image');
+
+
+        // compare image data old and new one
+        if ($imageFile->getError() === 4)
+        {
+            $imageName = $oldImage;
+        }
+        elseif ($oldImage != 'untitled.png')
+        {
+            unlink('assets/images/' . $oldImage);
+
+            $imageName = $imageFile->getRandomName();
+            $imageFile->move('assets/images/', $imageName);
+        }
+        else
+        {
+            $imageName = $imageFile->getRandomName();
+            $imageFile->move('assets/images/', $imageName);
+        }
+
         $data = [
             'text'       => $this->request->getVar('text'),
             'checkbox'   => $this->request->getVar('checkbox'),
             'date'       => $this->request->getVar('date'),
             'email'      => $this->request->getVar('email'),
-            'image'      => $this->request->getVar('image'),
+            'image'      => $imageName,
             'textbox'    => $this->request->getVar('textbox'),
             'price'      => $this->request->getVar('price'),
             'password'   => $this->request->getVar('password'),
@@ -82,7 +119,7 @@ class Product extends BaseController
             'url'        => $this->request->getVar('url'),
         ];
 
-        if ($this->modelProduct->update($id, $data))
+        if ($this->modelProduct->update($oldId, $data))
         {
             return redirect()->to('/');
         }
