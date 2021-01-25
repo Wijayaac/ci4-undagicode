@@ -128,4 +128,10 @@ class Product extends BaseController
             echo "Failed";
         }
     }
+    public function print()
+    {
+        $data ['product'] = $this->modelProduct->getAllProduct();
+        return view('Print', $data);
+
+    }
 }
