@@ -131,6 +131,10 @@ nb-configuration.xml
 .jpeg
 .gif
 
-# Images folder
-public/assets/images/
+# public  folder
+public/build/*
+public/dist/*
+public/docs/*
+public/plugins/*
+
 
