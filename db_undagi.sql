@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 22, 2021 at 02:36 PM
+-- Generation Time: Jan 25, 2021 at 01:38 PM
 -- Server version: 10.3.25-MariaDB-0ubuntu0.20.04.1
 -- PHP Version: 7.4.3
 
@@ -21,6 +21,30 @@ SET time_zone = "+00:00";
 --
 -- Database: `db_undagi`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `master_book`
+--
+
+CREATE TABLE `master_book` (
+  `id` char(8) NOT NULL,
+  `book_name` varchar(128) NOT NULL,
+  `id_category` char(8) NOT NULL,
+  `writer` varchar(128) NOT NULL,
+  `publisher` varchar(128) NOT NULL,
+  `year_created` char(4) NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `master_book`
+--
+
+INSERT INTO `master_book` (`id`, `book_name`, `id_category`, `writer`, `publisher`, `year_created`, `created_at`, `updated_at`) VALUES
+('12312', 'Habis Gelap Terbitlah Terang', '127481', 'R.A Kartini', 'Jakarta Post', '1982', '2021-01-25', '2021-01-25');
 
 -- --------------------------------------------------------
 
@@ -47,11 +71,17 @@ CREATE TABLE `master_product` (
 --
 
 INSERT INTO `master_product` (`id`, `text`, `checkbox`, `date`, `email`, `image`, `textbox`, `price`, `password`, `radio`, `url`) VALUES
-(1219304342, 'happy birthday', 'Value 2', '2021-01-21', 'tr9smlm5wa@temporary-mail.net', 'composer.json', 'kjkladsj\r\nadw\r\nw\r\nd', 30000, '123214', 'Value1', 'https://hallodesainer.com/blog/freelance-design-graphic-ini-cara');
+(978176438, 'happy birthday', 'Value 2', '2021-01-28', 'tr9smlm5wa@temporary-mail.net', '1611551109_fb6b6cef9f45b0ae44a6.png', 'yes this is text area', 200000, '1234567', 'Value1', 'http://qquapdwzm2kq2a5jzz4jpw-on.drv.tw/www.twick-store.xyz/');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `master_book`
+--
+ALTER TABLE `master_book`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `master_product`

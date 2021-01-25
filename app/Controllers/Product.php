@@ -15,13 +15,13 @@ class Product extends BaseController
     public function index()
     {
         $data = [
-            'product' => $this->modelProduct->getAllProduct()
+            'products' => $this->modelProduct->getAllProduct()
         ];
-        return view('Home', $data);
+        return view('Product/Home', $data);
     }
     public function add()
     {
-        return view('Add');
+        return view('Product/Add');
     }
     public function save()
     {
@@ -45,7 +45,7 @@ class Product extends BaseController
             'image'      => $imageName,
             'textbox'    => $this->request->getVar('textbox'),
             'price'      => $this->request->getVar('price'),
-            'password'   => $this->request->getVar('password'),
+            'password'   => md5($this->request->getVar('password')),
             'radio'      => $this->request->getVar('radio'),
             'url'        => $this->request->getVar('url'),
         ];
@@ -77,7 +77,7 @@ class Product extends BaseController
         $data = [
             'product' => $this->modelProduct->getProduct($id),
         ];
-        return view('Edit', $data);
+        return view('Product/Edit', $data);
     }
     public function update()
     {
@@ -114,7 +114,7 @@ class Product extends BaseController
             'image'      => $imageName,
             'textbox'    => $this->request->getVar('textbox'),
             'price'      => $this->request->getVar('price'),
-            'password'   => $this->request->getVar('password'),
+            'password'   => md5($this->request->getVar('password')),
             'radio'      => $this->request->getVar('radio'),
             'url'        => $this->request->getVar('url'),
         ];
@@ -130,8 +130,7 @@ class Product extends BaseController
     }
     public function print()
     {
-        $data ['product'] = $this->modelProduct->getAllProduct();
-        return view('Print', $data);
-
+        $data['product'] = $this->modelProduct->getAllProduct();
+        return view('Product/Print', $data);
     }
 }
