@@ -33,7 +33,7 @@ class Product extends BaseController
         else
         {
             $imageName = $imageFile->getRandomName();
-            $imageFile->move('assets/images/', $imageName);
+            $imageFile->move('uploads/', $imageName);
         }
 
         $data = [
@@ -64,7 +64,7 @@ class Product extends BaseController
         $dataImage = $this->modelProduct->getProduct($id)->getResult('array');
         if ($this->modelProduct->delete($id))
         {
-            unlink('assets/images/' . $dataImage[0]['image']);
+            unlink('uploads/' . $dataImage[0]['image']);
             return redirect()->to('/');
         }
         else
@@ -95,15 +95,15 @@ class Product extends BaseController
         }
         elseif ($oldImage != 'untitled.png')
         {
-            unlink('assets/images/' . $oldImage);
+            unlink('uploads/    ' . $oldImage);
 
             $imageName = $imageFile->getRandomName();
-            $imageFile->move('assets/images/', $imageName);
+            $imageFile->move('uploads/', $imageName);
         }
         else
         {
             $imageName = $imageFile->getRandomName();
-            $imageFile->move('assets/images/', $imageName);
+            $imageFile->move('uploads/', $imageName);
         }
 
         $data = [
