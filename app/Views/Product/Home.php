@@ -12,8 +12,7 @@
                         <a href="javascript:;" data="<?= site_url('product/add') ?>" class="btn btn-primary btn-add"><i class="fas fa-folder-plus"></i> add</a>
                     </li>
                     <li class="nav-item ml-sm-2  ">
-                        <a href="javascript:;" id="btn-export" onclick="createPDF()" class="btn btn-success"><i class="fas fa-print"></i> print</a>
-                        <a href="<?php echo base_url('Product/print') ?>" id="btn-export-file" class="btn btn-success"><i class="fas fa-print"></i> print</a>
+                        <a href="<?php echo base_url('Product/print')?>" id="btn-export-file" class="btn btn-success"><i class="fas fa-print"></i> print</a>
                     </li>
                 </ul>
                 <!-- SEARCH FORM -->
@@ -138,30 +137,5 @@
             }
         });
     });
-
-    function createPDF() {
-        var sTable = document.getElementById('table').innerHTML;
-
-        var style = "<style>";
-        style = style + "table {width: 50%;font: 17px Calibri;}";
-        style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
-        style = style + "padding: 2px 3px;text-align: center;}";
-        style = style + "</style>";
-
-        // CREATE A WINDOW OBJECT.
-        var win = window.open('', '', 'height=700,width=700');
-
-        win.document.write('\x3Chtml>\x3Chead>');
-        win.document.write('\x3Ctitle>Profile\x3C/title>');
-        win.document.write(style);
-        win.document.write('\x3C/head>');
-        win.document.write('\x3Cbody>');
-        win.document.write(sTable);
-        win.document.write('\x3C/body>\x3C/html>');
-
-        win.document.close();
-
-        window.print();
-    }
 </script>
 <?= $this->endSection() ?>
