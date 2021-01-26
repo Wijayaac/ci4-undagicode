@@ -12,7 +12,7 @@ class AddTableUser extends Migration
 		$this->forge->addField([
 			'id' => [
 
-				'type'			=> 'INT',
+				'type'			=> 'CHAR',
 				'constraint'	=>  8,
 				'unsigned'		=> 'true',
 				'auto_increment' => 'false'
@@ -31,14 +31,15 @@ class AddTableUser extends Migration
 			],
 			'telephone' => [
 				'type'			=> 'CHAR',
-				'constrain'		=> 14
+				'constraint'	=> 14
 			],
-			'created_at DATETIME default CURRENT_TIMESTAMP'
+			'created_at DATETIME default CURRENT_TIMESTAMP',
+			'updated_at DATETIME default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'
 		]);
 		// set id as primary key
 		$this->forge->addKey('id', TRUE);
 		// create table script
-		$this->forge->createTable('user', TRUE);
+		$this->forge->createTable('master_user', TRUE);
 	}
 
 	//--------------------------------------------------------------------
@@ -46,6 +47,6 @@ class AddTableUser extends Migration
 	public function down()
 	{
 		//delete user table
-		$this->forge->dropTable('user');
+		$this->forge->dropTable('master_user');
 	}
 }

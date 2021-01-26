@@ -70,6 +70,6 @@
 </div>
 <script>
     $('.modal').on('click', '.close-modal', function() {
-        window.location.href = '<?= site_url(); ?>/product';
+        window.location.href = '<?= site_url('/'); ?>';
     });
 </script>";

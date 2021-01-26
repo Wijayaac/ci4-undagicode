@@ -12,7 +12,7 @@
                         <a href="javascript:;" data="<?= site_url('product/add') ?>" class="btn btn-primary btn-add"><i class="fas fa-folder-plus"></i> add</a>
                     </li>
                     <li class="nav-item ml-sm-2  ">
-                        <a href="<?php echo base_url('Product/print')?>" id="btn-export-file" class="btn btn-success"><i class="fas fa-print"></i> print</a>
+                        <a href="<?php echo base_url('Product/print') ?>" id="btn-export-file" class="btn btn-success"><i class="fas fa-print"></i> print</a>
                     </li>
                 </ul>
                 <!-- SEARCH FORM -->
@@ -57,9 +57,9 @@
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="master-data">
                         <?php foreach ($products->getResult() as $item) : ?>
-                            <tr class="master-data">
+                            <tr>
                                 <td><?= $item->text ?></td>
                                 <td><?= $item->checkbox ?></td>
                                 <td><?= $item->date ?></td>
@@ -81,24 +81,24 @@
             </div>
         </div>
         <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 

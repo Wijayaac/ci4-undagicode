@@ -4,14 +4,17 @@ namespace App\Controllers;
 
 use \CodeIgniter\Controller;
 use \App\Models\ModelBook;
+use \App\Models\ModelCategory;
 
 
 class Book extends BaseController
 {
     protected $modelBook;
+    protected $modelCategory;
     public function __construct()
     {
-        $this->modelBook = new ModelBook();
+        $this->modelBook        = new ModelBook();
+        $this->modelCategory    = new ModelCategory();
     }
 
     public function index()
@@ -25,7 +28,11 @@ class Book extends BaseController
 
     public function add()
     {
-        return view('Book/Add');
+        $data = [
+            'categories' => $this->modelCategory->findAll(),
+        ];
+        return var_dump('Hello');
+        // return view('Book/Add');
     }
 
     public function save()
@@ -71,10 +78,12 @@ class Book extends BaseController
     }
     public function edit($id)
     {
+        $category = $this->modelCategory->find('12954297');
         $data = [
-            'book' => $this->modelBook->find($id)
+            'book' => $this->modelBook->find($id),
         ];
-        return view('Book/Edit', $data);
+        echo var_dump($data);
+        // return view('Book/Edit', $data);
     }
     public function update()
     {

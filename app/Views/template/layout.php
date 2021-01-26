@@ -195,7 +195,7 @@
         $.widget.bridge('uibutton', $.ui.button);
     </script>
     <!-- Bootstrap 4 -->
-    <script src="<?= base_url() ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="<//?= base_url() ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script> -->
     <!-- JQVMap -->
     <script src="<?= base_url() ?>/plugins/jqvmap/jquery.vmap.min.js"></script>
     <!-- AdminLTE App -->

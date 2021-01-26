@@ -8,11 +8,11 @@
             <nav class="main-header navbar navbar-expand navbar-white navbar-light nav-tabel" style="border-bottom: 0px solid #dee2e6; margin: 0; margin-left: 0 !important; ">
                 <!-- Left navbar links -->
                 <ul class="navbar-nav">
-                    <li class="nav-item master-data">
+                    <li class="nav-item master-book">
                         <a href="javascript:;" data="<?= site_url('book/add') ?>" class="btn btn-primary btn-add"><i class="fas fa-folder-plus"></i> add</a>
                     </li>
                     <li class="nav-item ml-sm-2  ">
-                        <a href="<?php echo base_url('book/print')?>" id="btn-export-file" class="btn btn-success"><i class="fas fa-print"></i> print</a>
+                        <a href="<?= base_url('book/print') ?>" id="btn-export-file" class="btn btn-success"><i class="fas fa-print"></i> print</a>
                     </li>
                 </ul>
                 <!-- SEARCH FORM -->
@@ -52,16 +52,16 @@
                             <th scope="col">action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="master-book">
                         <?php foreach ($books as $book) : ?>
-                            <tr class="master-data">
+                            <tr>
                                 <td><?= $book['book_name'] ?></td>
                                 <td><?= $book['id_category'] ?></td>
                                 <td><?= $book['writer'] ?></td>
                                 <td><?= $book['publisher'] ?></td>
                                 <td><?= $book['year_created'] ?></td>
                                 <td>
-                                    <a id="btn-edit" href="javascript:;" data="<?= site_url('book/edit/' . $book['id']) ?>" class="btn btn-outline-warning btn-sm"><i class="fas fa-magic fa-xs"></i>Edit</a>
+                                    <a id="btn-edit" href="javascript:;" data="<?= site_url('book/edit/') ?><?= $book['id'] ?>" class="btn btn-outline-warning btn-sm"><i class="fas fa-magic fa-xs"></i>Edit</a>
                                     <a id="btn-trash" href="<?= site_url('book/delete/' . $book['id']) ?>" data="" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash fa-xs"></i>Hapus</a>
                                 </td>
                             </tr>
@@ -71,24 +71,24 @@
             </div>
         </div>
         <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 
@@ -96,36 +96,34 @@
 
 </div>
 <script type="text/javascript">
-    $('.master-data').on('click', '.btn-add', function(e) {
+    $('.master-book').on('click', '.btn-add', function(e) {
 
-        var addUrl = $(this).attr('data');
+        var addBook = $(this).attr('data');
         $.ajax({
-            type: "post",
-            url: addUrl,
+            type: "GET",
+            url: addBook,
+            dataType: "json",
             success: function(response) {
-                $('#modal-item').html(response);
-                $('#modalAdd').modal('show');
+                console.log("Success");
+            }
+        });
+
+    });
+    $('.master-book').on('click', '#btn-edit', function() {
+        var editBook = $(this).attr('data');
+        $.ajax({
+            type: 'GET',
+            url: editBook,
+            success: function(response) {
+                console.log("Success");
+                // $('#modal-item').html(response);
+                // $('#modalEdit').modal('show');
             },
             error: function() {
                 alert('Modal Error');
             }
         });
-
-
+        // console.log('Edit', editBook);
     });
-    $('.master-data').on('click', '#btn-edit', function() {
-        var editUrl = $(this).attr('data');
-        $.ajax({
-            type: "post",
-            url: editUrl,
-            success: function(response) {
-                $('#modal-item').html(response);
-                $('#modalEdit').modal('show');
-            },
-            error: function() {
-                alert('Modal Error');
-            }
-        });
-    });
-</script>   
+</script>
 <?= $this->endSection() ?>
