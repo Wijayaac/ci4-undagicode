@@ -79,7 +79,8 @@
                     </tbody>
                 </table>
             </div>
-            <nav aria-label="Page navigation example">
+        </div>
+        <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item">
                         <a class="page-link" href="#" aria-label="Previous">
@@ -98,7 +99,6 @@
                     </li>
                 </ul>
             </nav>
-        </div>
     </div>
 </div>
 

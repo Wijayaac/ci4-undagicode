@@ -134,4 +134,9 @@ class Book extends BaseController
         $this->modelBook->delete($id);
         return redirect()->to('/book');
     }
+    public function print()
+    {
+        $data['book'] = $this->modelBook->findAll();
+        return view('Book/Print', $data);
+    }
 }
