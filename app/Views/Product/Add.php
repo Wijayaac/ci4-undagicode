@@ -5,59 +5,80 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h5 class="modal-title">Add Data</h5>
+                <h5 class="modal-title">Add Product</h5>
                 <button type="button" class="close close-modal" data-dismiss="modal">&times;</button>
             </div>
 
             <!-- Modal body -->
-            <form action="<?= site_url(); ?>/product/save" method="post" enctype="multipart/form-data">
+            <form action="<?= site_url(); ?>product/save" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="hidden" name="id" value="<?= rand() ?>" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Text</label>
-                        <input type="text" name="text" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="checkbox" id="" value="Value 2" checked>Value Check
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Date</label>
-                        <input type="date" name="date" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Email</label>
-                        <input type="email" name="email" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Image</label>
-                        <input type="file" name="image" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                    </div>
-                    <div class="form-group">
-                        <label for="textbox">Text Area</label>
-                        <textarea class="form-control" name="textbox" id="textbox" rows="3"></textarea>
+                        <input type="hidden" name="id" value="<?= rand() ?>">
+                        <label for="">Product Name</label>
+                        <input type="text" name="productName" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="">Price</label>
-                        <input type="number" name="price" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="radio" id="" value="Value1" checked>
-                            Value 1
-                        </label>
+                        <div class="input-group mb-3">
+
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Rp.</span>
+                            </div>
+                            <input type="number" name="productPrice" class="form-control" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text">,-</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="">url</label>
-                        <input type="url" name="url" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                        <label for="">Weight</label>
+                        <div class="input-group mb-3">
+
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Gr.</span>
+                            </div>
+                            <input type="number" name="productWeight" class="form-control" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text">,-</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="">password</label>
-                        <input type="password" name="password" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                        <label for="">Category</label>
+                        <select class="form-control" name="productCategory" id="" required>
+                            <option value="men">Men</option>
+                            <option value="women">Women</option>
+                            <option value="kid">Kid</option>
+                        </select>
                     </div>
+                    <div class="form-group">
+                        <label for="textbox">Tag</label>
+                        <textarea class="form-control" name="productTag" id="textbox" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Stock</label>
+                        <input type="number" name="productStock" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="textbox">Description</label>
+                        <textarea class="form-control" name="productDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Picture</label>
+                        <input type="file" class="form-control-file" name="productImage" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Choose Seller :</label>
+                        <div class="form-check">
+                            <label class="form-check-label mr-4">
+                                <input type="radio" class="form-check-input" name="productSeller" id="" value="sumarecon store">
+                                Sumarecon </label>
+                            <label class="form-check-label mr-4">
+                                <input type="radio" class="form-check-input" name="productSeller" id="" value="adamkis store">
+                                AdamKis</label>
+                        </div>
+                    </div>
+
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
@@ -68,8 +89,20 @@
         </div>
     </div>
 </div>
+<!-- close button script -->
 <script>
     $('.modal').on('click', '.close-modal', function() {
         window.location.href = '<?= site_url('/') ?>';
+    });
+</script>
+<!-- TinyMCE script use for adding plugin -->
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+        toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+        toolbar_mode: 'floating',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
     });
 </script>

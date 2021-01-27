@@ -10,54 +10,75 @@
             </div>
 
             <!-- Modal body -->
-            <form action="<?= site_url(); ?>/product/update/" method="post" enctype="multipart/form-data">
+            <form action="<?= site_url(); ?>product/update" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
-                    <?php foreach ($product->getResult() as $item) : ?>
-                        <input type="hidden" name="id" value="<?= $item->id ?>">
-                        <div class="form-group">
-                            <label for="">Text</label>
-                            <input type="text" name="text" id="" class="form-control" value="<?= $item->text ?>" placeholder="" aria-describedby="helpId">
+                    <div class="form-group">
+                        <input type="hidden" name="id" value="<?= $product['id'] ?>">
+                        <label for="">Product Name</label>
+                        <input type="text" name="productName" class="form-control" value="<?= $product['product_name'] ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Price</label>
+                        <div class="input-group mb-3">
+
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Rp.</span>
+                            </div>
+                            <input type="number" name="productPrice" class="form-control" value="<?= $product['price'] ?>" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text">,-</span>
+                            </div>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Weight</label>
+                        <div class="input-group mb-3">
+
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Gr.</span>
+                            </div>
+                            <input type="number" name="productWeight" class="form-control" value="<?= $product['weight'] ?>" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text">,-</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Category</label>
+                        <select class="form-control" name="productCategory" id="" required>
+                            <option value="men">Men</option>
+                            <option value="women">Women</option>
+                            <option value="kid">Kid</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="textbox">Tag</label>
+                        <textarea class="form-control" name="productTag" id="textbox" rows="2"><?= $product['tag'] ?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Stock</label>
+                        <input type="number" name="productStock" class="form-control" value="<?= $product['stock'] ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="textbox">Description</label>
+                        <textarea class="form-control" name="productDescription" rows="3"><?= $product['description'] ?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Picture</label>
+                        <input type="file" class="form-control-file" name="productImage">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Choose Seller :</label>
                         <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" name="checkbox" id="" value="<?= $item->checkbox ?>" checked>Value Check
-                            </label>
+                            <label class="form-check-label mr-4">
+                                <input type="radio" class="form-check-input" name="productSeller" id="" value="sumarecon store">
+                                Sumarecon </label>
+                            <label class="form-check-label mr-4">
+                                <input type="radio" class="form-check-input" name="productSeller" id="" value="adamkis store">
+                                AdamKis</label>
                         </div>
-                        <div class="form-group">
-                            <label for="">Date</label>
-                            <input type="date" name="date" id="" class="form-control" placeholder="" value="<?= $item->date ?>" aria-describedby="helpId">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Email</label>
-                            <input type="email" name="email" id="" class="form-control" placeholder="" value="<?= $item->email ?>" aria-describedby="helpId">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Image</label>
-                            <input type="file" name="image" id="" class="form-control" files="<?= $item->image ?>" aria-describedby="helpId">
-                        </div>
-                        <div class="form-group">
-                            <label for="textbox">Text Area</label>
-                            <textarea class="form-control" name="textbox" id="textbox" rows="3"><?= $item->textbox ?></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Price</label>
-                            <input type="number" name="price" id="" class="form-control" placeholder="" value="<?= $item->price ?>" aria-describedby="helpId">
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="radio" id="" value="<?= $item->radio ?>" checked>
-                                Value 1
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label for="">url</label>
-                            <input type="url" name="url" id="" class="form-control" placeholder="" value="<?= $item->url ?>" aria-describedby="helpId">
-                        </div>
-                        <div class="form-group">
-                            <label for="">password</label>
-                            <input type="password" name="password" id="" class="form-control" placeholder="" value="<?= $item->password ?>" aria-describedby="helpId">
-                        </div>
-                    <?php endforeach ?>
+                    </div>
+
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
@@ -68,8 +89,20 @@
         </div>
     </div>
 </div>
+<!-- close button script -->
 <script>
     $('.modal').on('click', '.close-modal', function() {
         window.location.href = '<?= site_url('/'); ?>';
     });
-</script>";
+</script>
+<!-- TinyMCE script use for adding plugin -->
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+        toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+        toolbar_mode: 'floating',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+    });
+</script>

@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use \CodeIgniter\Controller;
 use \App\Models\ModelProduct;
 
 class Product extends BaseController
@@ -15,8 +14,9 @@ class Product extends BaseController
     public function index()
     {
         $data = [
-            'products' => $this->modelProduct->getAllProduct()
+            'products' => $this->modelProduct->findAll()
         ];
+        // return var_dump($data['products']);
         return view('Product/Home', $data);
     }
     public function add()
@@ -25,7 +25,7 @@ class Product extends BaseController
     }
     public function save()
     {
-        $imageFile =    $this->request->getFile('image');
+        $imageFile =    $this->request->getFile('productImage');
         if ($imageFile->getError() == 4)
         {
             $imageName = 'untitled.png';
@@ -37,17 +37,17 @@ class Product extends BaseController
         }
 
         $data = [
-            'id'         => $this->request->getVar('id'),
-            'text'       => $this->request->getVar('text'),
-            'checkbox'   => $this->request->getVar('checkbox'),
-            'date'       => $this->request->getVar('date'),
-            'email'      => $this->request->getVar('email'),
-            'image'      => $imageName,
-            'textbox'    => $this->request->getVar('textbox'),
-            'price'      => $this->request->getVar('price'),
-            'password'   => md5($this->request->getVar('password')),
-            'radio'      => $this->request->getVar('radio'),
-            'url'        => $this->request->getVar('url'),
+            'id'            => $this->request->getVar('id'),
+            'product_name'  => $this->request->getVar('productName'),
+            'price'         => $this->request->getVar('productPrice'),
+            'weight'        => $this->request->getVar('productWeight'),
+            'category'      => $this->request->getVar('productCategory'),
+            'tag'           => $this->request->getVar('productTag'),
+            'stock'         => $this->request->getVar('productStock'),
+            'description'   => $this->request->getVar('productDescription'),
+            'image'         => $imageName,
+            'seller'        => $this->request->getVar('productSeller'),
+
         ];
 
         if ($this->modelProduct->insert($data))
@@ -58,24 +58,27 @@ class Product extends BaseController
         {
             echo "Fail";
         }
+        return redirect()->to('/');
     }
     public function delete($id)
     {
-        $dataImage = $this->modelProduct->getProduct($id)->getResult('array');
+        $dataImage = $this->modelProduct->find($id);
+
         if ($this->modelProduct->delete($id))
         {
-            unlink('uploads/' . $dataImage[0]['image']);
+            unlink('uploads/' . $dataImage['image']);
             return redirect()->to('/');
         }
         else
         {
             echo "Error";
         }
+        return redirect()->to('/');
     }
     public function edit($id)
     {
         $data = [
-            'product' => $this->modelProduct->getProduct($id),
+            'product' => $this->modelProduct->find($id),
         ];
         return view('Product/Edit', $data);
     }
@@ -83,10 +86,9 @@ class Product extends BaseController
     {
         // get old data so we can compare with new data
         $oldId      = $this->request->getVar('id');
-        $oldData    = $this->modelProduct->getProduct($oldId);
-        $oldImage   = $oldData->getResult('array')[0]['image'];
-        $imageFile  = $this->request->getFile('image');
-
+        $oldData    = $this->modelProduct->find($oldId);
+        $oldImage   = $oldData['image'];
+        $imageFile  = $this->request->getFile('productImage');
 
         // compare image data old and new one
         if ($imageFile->getError() === 4)
@@ -95,7 +97,7 @@ class Product extends BaseController
         }
         elseif ($oldImage != 'untitled.png')
         {
-            unlink('uploads/    ' . $oldImage);
+            unlink('uploads/' . $oldImage);
 
             $imageName = $imageFile->getRandomName();
             $imageFile->move('uploads/', $imageName);
@@ -107,16 +109,15 @@ class Product extends BaseController
         }
 
         $data = [
-            'text'       => $this->request->getVar('text'),
-            'checkbox'   => $this->request->getVar('checkbox'),
-            'date'       => $this->request->getVar('date'),
-            'email'      => $this->request->getVar('email'),
-            'image'      => $imageName,
-            'textbox'    => $this->request->getVar('textbox'),
-            'price'      => $this->request->getVar('price'),
-            'password'   => md5($this->request->getVar('password')),
-            'radio'      => $this->request->getVar('radio'),
-            'url'        => $this->request->getVar('url'),
+            'product_name'  => $this->request->getVar('productName'),
+            'price'         => $this->request->getVar('productPrice'),
+            'weight'        => $this->request->getVar('productWeight'),
+            'category'      => $this->request->getVar('productCategory'),
+            'tag'           => $this->request->getVar('productTag'),
+            'stock'         => $this->request->getVar('productStock'),
+            'description'   => $this->request->getVar('productDescription'),
+            'image'         => $imageName,
+            'seller'        => $this->request->getVar('productSeller'),
         ];
 
         if ($this->modelProduct->update($oldId, $data))
@@ -127,10 +128,21 @@ class Product extends BaseController
         {
             echo "Failed";
         }
+        return redirect()->to('/');
     }
     public function print()
     {
-        $data['product'] = $this->modelProduct->getAllProduct();
+        $data = [
+            'products' => $this->modelProduct->findAll(),
+        ];
         return view('Product/Print', $data);
+    }
+    public function export()
+    {
+        $data = [
+            'products' => $this->modelProduct->findAll(),
+        ];
+        // var_dump($data);
+        return view('Product/Export', $data);
     }
 }

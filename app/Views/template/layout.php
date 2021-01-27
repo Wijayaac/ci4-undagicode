@@ -11,8 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?= base_url() ?>/assets/icon/css/all.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- JQVMap -->
     <link rel="stylesheet" href="<?= base_url() ?>/plugins/jqvmap/jqvmap.min.css">
     <!-- Theme style -->
@@ -24,6 +22,8 @@
     <script src="<?= base_url() ?>/assets/js/jquery-3.5.1.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="<?= base_url() ?>/assets/js/bootstrap.min.js"></script>
+    <!-- TinyMCE textarea editor APIKey  -->
+    <script src="https://cdn.tiny.cloud/1/bmq852wo3zyrki97cj1ke2rjji5q65rayhgfv3bfk75fjgyv/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 </head>
 
@@ -64,7 +64,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link" style="border-bottom: 0px solid #dee2e6;">
+            <a href="<?= site_url() ?>" class="brand-link" style="border-bottom: 0px solid #dee2e6;">
                 <img src="<?= base_url() ?>/favicon.ico" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">Undagicode</span>
             </a>
@@ -79,75 +79,11 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
                         <li class="nav-item has-treeview menu-open">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/widgets.html" class="nav-link">
-                                <i class="nav-icon fas fa-book"></i>
-                                <p>
-                                    Data Buku
-
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-user-alt"></i>
-                                <p>
-                                    Data Pegawai
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="pages/layout/top-nav.html" class="nav-link">
-                                        <i class="far fa-user nav-icon"></i>
-                                        <p>Kepala Bagian</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                                        <i class="far fa-user nav-icon"></i>
-                                        <p>Administrasi</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/layout/boxed.html" class="nav-link">
-                                        <i class="far fa-user nav-icon"></i>
-                                        <p>Keuangan</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/layout/fixed-sidebar.html" class="nav-link">
-                                        <i class="far fa-user nav-icon"></i>
-                                        <p>lingkungan</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/widgets.html" class="nav-link">
-                                <i class="nav-icon fas fa-exchange-alt"></i>
-                                <p>
-                                    Transaksi
-
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/widgets.html" class="nav-link">
-                                <i class="nav-icon fas fa-file"></i>
-                                <p>
-                                    Laporan
-
                                 </p>
                             </a>
                         </li>
@@ -171,7 +107,7 @@
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Dashboard v1</li>
+                                <li class="breadcrumb-item active">Dashboard</li>
                             </ol>
                         </div>
                         <!-- /.col -->
@@ -180,33 +116,26 @@
                 </div>
                 <!-- /.container-fluid -->
             </div>
+            <!-- Main Section render to another page -->
             <section class="content">
                 <div class="container-fluid">
                     <?= $this->renderSection('content') ?>
                 </div>
             </section>
+            <!-- end render section -->
         </div>
     </div>
 
-    <!-- jQuery UI 1.11.4 -->
     <script src="<?= base_url() ?>/plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
         $.widget.bridge('uibutton', $.ui.button);
     </script>
     <!-- Bootstrap 4 -->
-    <!-- <script src="<//?= base_url() ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script> -->
     <!-- JQVMap -->
     <script src="<?= base_url() ?>/plugins/jqvmap/jquery.vmap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="<?= base_url() ?>/dist/js/adminlte.js"></script>
-    </script>
-    <!-- Menu Toggle Script -->
-    <script>
-        $("#menu-toggle").click(function(e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
     </script>
 
 </body>
