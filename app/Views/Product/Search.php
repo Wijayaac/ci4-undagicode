@@ -2,20 +2,21 @@
 
 <?= $this->section('content') ?>
 <div class="row m-lg-2">
-    <div class="container-fluid p-md-3 shadow p-3 mb-5 bg-white rounded">
+    <div class="container-fluid p-md-3" style="border-radius: 20px; box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.6);">
         <div class=" table-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl" style="overflow-y: hidden;">
             <!-- Navbar -->
             <nav class="main-header navbar navbar-expand navbar-white navbar-light nav-tabel" style="border-bottom: 0px solid #dee2e6; margin: 0; margin-left: 0 !important; ">
                 <!-- Left navbar links -->
                 <ul class="navbar-nav">
                     <li class="nav-item master-data">
-                        <a href="javascript:;" data="<?= site_url('product/add') ?>" class="btn btn-outline-primary btn-add"><i class="fas fa-folder-plus"></i> add</a>
+                        <a href="javascript:;" data="<?= site_url('product/add') ?>" class="btn btn-primary btn-add"><i class="fas fa-folder-plus"></i> add</a>
                     </li>
                     <li class="nav-item ml-sm-2  ">
-                        <a href="<?php echo base_url('Product/print') ?>" id="btn-export-file" class="btn btn-outline-success"><i class="fas fa-print"></i> print</a>
+                        <a href="<?php echo base_url('Product/print') ?>" id="btn-export-file" class="btn btn-success"><i class="fas fa-print"></i> print</a>
                     </li>
                     <li class="nav-item ml-sm-2 excel">
-                        <a href="<?php echo base_url('product/export') ?>" id="btn-export-file" class="btn btn-outline-info"><i class="fas fa-download"></i> Excel</a>
+                        <a href="<?php echo base_url('product/export') ?>" id="btn-export-file" class="btn btn-info"><i class="fas fa-download"></i> Excel</a>
+                        <!-- <a href="javascript:;" id="btn-export-excel" class="btn btn-info"><i class="fas fa-download"></i> Excel</a> -->
                     </li>
                 </ul>
                 <!-- Right navbar links -->
@@ -23,9 +24,9 @@
                     <li class="nav-item">
                         <form class="form-inline ml-3" action="<?= base_url('/product/search') ?>">
                             <div class="input-group input-group-sm">
-                                <input class="form-control form-control-navbar rounded" name="search" type="search" placeholder="name eg : t-shirt" aria-label="Search">
+                                <input class="form-control form-control-navbar" name="search" type="search" placeholder="Search" aria-label="Search" style="border-radius: 10px 0 0 10px;">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary rounded" type="submit">
+                                    <button class="btn btn-navbar" type="submit" style="border-radius: 0 10px 10px 0 ;">
                                         <i class="fas fa-search"></i>
                                     </button>
                                 </div>
@@ -36,9 +37,9 @@
                 </ul>
             </nav>
             <!-- /.navbar -->
-            <div class="container-fluid" style="overflow-y: scroll;height: 450px;">
-                <table class="table table-hover">
-                    <thead class="bg-dark text-light">
+            <div class="container-fluid" id="table">
+                <table class="table table-hover tabel">
+                    <thead class="bg-info">
                         <tr>
                             <th scope="col">Product</th>
                             <th scope="col">Price(Rp.)</th>
@@ -53,7 +54,7 @@
                         </tr>
                     </thead>
                     <tbody class="master-data">
-                        <?php foreach ($products as $item) : ?>
+                        <?php foreach ($product as $item) : ?>
                             <tr>
                                 <td class="text-capitalize"> <?= $item['product_name'] ?></td>
                                 <td class="text-capitalize"> <?= $item['price'] ?></td>
@@ -74,9 +75,7 @@
                         ?>
                     </tbody>
                 </table>
-
             </div>
-            <?= $pager->links('bootstrap', 'bootstrap') ?>
         </div>
     </div>
 </div>

@@ -1,4 +1,6 @@
-<?php namespace Config;
+<?php
+
+namespace Config;
 
 /**
  * Database Configuration
@@ -100,7 +102,7 @@ class Database extends \CodeIgniter\Database\Config
 				{
 					require TESTPATH . 'travis/Database.php';
 
-					if (! empty($dbconfig) && array_key_exists($group, $dbconfig))
+					if (!empty($dbconfig) && array_key_exists($group, $dbconfig))
 					{
 						$this->tests = $dbconfig[$group];
 					}

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use \App\Models\ModelProduct;
+use Config\Database;
 
 class Product extends BaseController
 {
@@ -13,11 +14,21 @@ class Product extends BaseController
     }
     public function index()
     {
+        $pager = \Config\Services::pager();
         $data = [
-            'products' => $this->modelProduct->findAll()
+            'products' => $this->modelProduct->paginate(1, 'bootstrap'),
+            'pager'    => $this->modelProduct->pager,
         ];
         // return var_dump($data['products']);
         return view('Product/Home', $data);
+    }
+    public function search()
+    {
+        $search     = $this->request->getVar('search');
+        $data       = [
+            'product' => $this->modelProduct->getSearch($search),
+        ];
+        return view('Product/Search', $data);
     }
     public function add()
     {
