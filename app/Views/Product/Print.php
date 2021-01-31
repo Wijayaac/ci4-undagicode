@@ -1,3 +1,5 @@
+<!-- Page rendering for print purpose get data from Controller Product, method -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,6 +60,7 @@
             </tr>
         </thead>
         <tbody>
+            <!-- Looping data that we get using forEach method -->
             <?php foreach ($products as $item) : ?>
                 <tr class="master-data">
                     <td class="text-capitalize"><?= $item['product_name'] ?></td>
@@ -71,10 +74,12 @@
                     <td class="text-capitalize"><?= $item['seller'] ?></td>
                 </tr>
             <?php endforeach ?>
+            <!-- End looping data -->
         </tbody>
     </table>
 
     <script>
+        // Method use for printing this page
         window.print();
     </script>
 </body>

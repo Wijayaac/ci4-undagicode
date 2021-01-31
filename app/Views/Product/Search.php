@@ -4,9 +4,9 @@
 <div class="row m-lg-2">
     <div class="container-fluid p-md-3" style="border-radius: 20px; box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.6);">
         <div class=" table-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl" style="overflow-y: hidden;">
-            <!-- Navbar -->
+            <!-- Master menu area -->
             <nav class="main-header navbar navbar-expand navbar-white navbar-light nav-tabel" style="border-bottom: 0px solid #dee2e6; margin: 0; margin-left: 0 !important; ">
-                <!-- Left navbar links -->
+                <!-- Button action area-->
                 <ul class="navbar-nav">
                     <li class="nav-item master-data">
                         <a href="javascript:;" data="<?= site_url('product/add') ?>" class="btn btn-primary btn-add"><i class="fas fa-folder-plus"></i> add</a>
@@ -16,10 +16,10 @@
                     </li>
                     <li class="nav-item ml-sm-2 excel">
                         <a href="<?php echo base_url('product/export') ?>" id="btn-export-file" class="btn btn-info"><i class="fas fa-download"></i> Excel</a>
-                        <!-- <a href="javascript:;" id="btn-export-excel" class="btn btn-info"><i class="fas fa-download"></i> Excel</a> -->
                     </li>
                 </ul>
-                <!-- Right navbar links -->
+                <!-- End button menu area -->
+                <!-- Search Bar -->
                 <ul class="navbar-nav ml-auto pr-4">
                     <li class="nav-item">
                         <form class="form-inline ml-3" action="<?= base_url('/product/search') ?>">
@@ -33,10 +33,11 @@
                             </div>
                         </form>
                     </li>
-
                 </ul>
+                <!-- End Search Bar -->
             </nav>
-            <!-- /.navbar -->
+            <!-- End Master menu area -->
+            <!-- Start Content Table -->
             <div class="container-fluid" id="table">
                 <table class="table table-hover tabel">
                     <thead class="bg-info">
@@ -54,6 +55,7 @@
                         </tr>
                     </thead>
                     <tbody class="master-data">
+                        <!-- Get data we pass from controller using forEach method -->
                         <?php foreach ($product as $item) : ?>
                             <tr>
                                 <td class="text-capitalize"> <?= $item['product_name'] ?></td>
@@ -73,17 +75,20 @@
                             </tr>
                         <?php endforeach
                         ?>
+                        <!-- End looping data -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
-
+<!-- Modal item default style  hidden -->
 <div id="modal-item">
 
 </div>
 <script type="text/javascript">
+    // *Calling add method using jQuery ajax request
+    // TODO : if success showing modal form add, else error vice versa
     $('.master-data').on('click', '.btn-add', function(e) {
 
         var addUrl = $(this).attr('data');
@@ -98,9 +103,9 @@
                 alert('Modal Error');
             }
         });
-
-
     });
+    //  * Calling edit method using jQuery ajax request
+    // TODO : if success showing modal form edit , else error vice versa
     $('.master-data').on('click', '#btn-edit', function() {
         var editUrl = $(this).attr('data');
         $.ajax({

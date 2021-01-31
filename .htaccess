@@ -1,3 +1,8 @@
+#--------------------------------------------------------------------
+# HTACCESS
+# Configuration using for hide index.php name on the url
+#--------------------------------------------------------------------
+
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

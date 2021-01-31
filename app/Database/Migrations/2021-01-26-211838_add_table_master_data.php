@@ -8,7 +8,7 @@ class AddTableMasterData extends Migration
 {
 	public function up()
 	{
-		//creating a table using command --php spark migrate--
+		// *creating a table using command --php spark migrate--
 		$this->forge->addField([
 			'id' => [
 				'type' 			=> 'CHAR',
@@ -64,8 +64,8 @@ class AddTableMasterData extends Migration
 
 	public function down()
 	{
-		//method that use for rollback case using command --php spark migrate:refresh---
-		// drop the table master_product
+		// *method that use for rollback case using command --php spark migrate:refresh---
+		// ! drop the table master_product
 
 		$this->forge->dropTable('master_product', TRUE);
 	}

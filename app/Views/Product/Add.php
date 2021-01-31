@@ -10,13 +10,16 @@
             </div>
 
             <!-- Modal body -->
+            <!-- Form for input data into database pass into Controller Product methode save -->
             <form action="<?= site_url(); ?>product/save" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="form-group">
+                        <!-- Field id : hidden , Field Product Name -->
                         <input type="hidden" name="id" value="<?= rand() ?>">
                         <label for="">Product Name</label>
                         <input type="text" name="productName" class="form-control" required>
                     </div>
+                    <!-- Field Price type number -->
                     <div class="form-group">
                         <label for="">Price</label>
                         <div class="input-group mb-3">
@@ -30,6 +33,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Field Weight type number -->
                     <div class="form-group">
                         <label for="">Weight</label>
                         <div class="input-group mb-3">
@@ -43,6 +47,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Field Category Type Select -->
                     <div class="form-group">
                         <label for="">Category</label>
                         <select class="form-control" name="productCategory" id="" required>
@@ -51,22 +56,27 @@
                             <option value="kid">Kid</option>
                         </select>
                     </div>
+                    <!-- Field Tag type textarea (include tinyMCE) -->
                     <div class="form-group">
                         <label for="textbox">Tag</label>
                         <textarea class="form-control" name="productTag" id="textbox" rows="2"></textarea>
                     </div>
+                    <!-- Field stock type number -->
                     <div class="form-group">
                         <label for="">Stock</label>
                         <input type="number" name="productStock" class="form-control" required>
                     </div>
+                    <!-- Field description type textarea (include tinyMCE) -->
                     <div class="form-group">
                         <label for="textbox">Description</label>
                         <textarea class="form-control" name="productDescription" rows="3"></textarea>
                     </div>
+                    <!-- Field picture type file : image -->
                     <div class="form-group">
                         <label for="">Picture</label>
                         <input type="file" class="form-control-file" name="productImage" required>
                     </div>
+                    <!-- Field Seller type radio btn -->
                     <div class="form-group">
                         <label for="">Choose Seller :</label>
                         <div class="form-check">

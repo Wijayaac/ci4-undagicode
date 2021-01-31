@@ -1,3 +1,4 @@
+<!-- Page for purpose export to excel function, get data from Controller Product, method export -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,6 +45,9 @@
 
 <body>
     <?php
+    // *PHP built-in method for download the page and export into excel document
+    // @first method with params application name and type
+    // @second method with params filename of the exported files
     header("Content-type: application/vnd-ms-excel");
     header("Content-Disposition: attachment; filename=undagi.xls");
     ?>
@@ -62,6 +66,7 @@
             </tr>
         </thead>
         <tbody>
+            <!-- Looping data using forEach method -->
             <?php foreach ($products as $item) : ?>
                 <tr class="master-data">
                     <td class="text-capitalize"><?= $item['product_name'] ?></td>
@@ -75,6 +80,7 @@
                     <td class="text-capitalize"><?= $item['seller'] ?></td>
                 </tr>
             <?php endforeach ?>
+            <!-- end looping data -->
         </tbody>
     </table>
 

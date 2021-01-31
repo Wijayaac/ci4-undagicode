@@ -1,7 +1,11 @@
 <?php
 
-/**
- * @var \CodeIgniter\Pager\PagerRenderer $pager
+/*
+    @var \CodeIgniter\Pager\PagerRenderer $pager
+    * Custom pagination template using Bootstrap
+    TODO : Add this template for using Bootstrap pagination
+
+    ? All method here is built-in CodeIgniter
  */
 
 $pager->setSurroundCount(1);

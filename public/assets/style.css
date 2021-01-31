@@ -1,4 +1,8 @@
-/* Simple CSS Sidebar */
+/* 
+    * Simple CSS Sidebar
+    TODO : Include bootstrap css, js CDN on layout template
+    TODO : Add this file (style.css) into the header layout template
+*/
 
  #wrapper {
     overflow-x: hidden;
@@ -29,7 +33,7 @@
 #wrapper.toggled #sidebar-wrapper {
   margin-left: 0;
 }
-
+/* Media Query for responsive design */
 @media (min-width: 768px) {
   #sidebar-wrapper {
     margin-left: 0;
