@@ -23,12 +23,31 @@
 
 <body>
     <div class="d-flex" id="wrapper">
+        <?php
 
+        $db = \Config\Database::connect();
+        $builder = $db->table('main_menu');
+
+        $menu = $builder->get()->getResult();
+
+        ?>
         <!-- Sidebar -->
         <div class="bg-dark border-right" id="sidebar-wrapper">
             <div class="sidebar-heading text-center text-white py-5"><i class="fab fa-ubuntu"></i> Undagi Code</div>
-            <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white ">Master Product</a>
+            <!-- Default dropright button -->
+            <div class="btn-group dropright">
+                <button type="button" class="btn btn-block rounded btn-dark mx-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dashboard <i class="fas fa-chevron-circle-right ml-3"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <!-- Dropdown menu links -->
+                    <div class="list-group list-group-flush">
+                        <!-- Get menu from @menu params ^^^ -->
+                        <?php foreach ($menu as $item) : ?>
+                            <a href="<?= site_url($item->menu_link) ?>" class="list-group-item list-group-item-action"><?= $item->menu_name ?></a>
+                        <?php endforeach ?>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -36,14 +55,11 @@
         <div id="page-content-wrapper">
             <!-- Begin Header -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                <button class="btn btn-outline-primary" id="menu-toggle"><i class="fas fa-align-left fa-lg  "></i></button>
+                <button class="btn btn-outline-primary ml-5" id="menu-toggle"><i class="fas fa-align-left fa-lg  "></i></button>
             </nav>
             <!-- End Header Wrapper -->
             <!-- Begin Cointent Wrapper -->
             <div class="container-fluid">
-                <div class="text-center mt-5">
-                    <h3 class="text-center">Master Product</h3>
-                </div>
                 <?= $this->renderSection('content') ?>
             </div>
             <!-- End Content Wrapper -->

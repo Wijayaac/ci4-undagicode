@@ -1,6 +1,9 @@
 <?= $this->extend('template/layout') ?>
 
 <?= $this->section('content') ?>
+<div class="text-center mt-5">
+    <h3 class="text-center">Master Product</h3>
+</div>
 <div class="row m-lg-2">
     <div class="container-fluid p-md-3 shadow p-3 mb-5 bg-white rounded">
         <div class=" table-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl" style="overflow-y: hidden;">
