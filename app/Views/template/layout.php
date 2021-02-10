@@ -44,7 +44,7 @@
                     <div class="list-group list-group-flush">
                         <!-- Get menu from @menu params ^^^ -->
                         <?php foreach ($menu as $item) : ?>
-                            <a href="<?= site_url($item->menu_link) ?>" class="list-group-item list-group-item-action"><?= $item->menu_name ?></a>
+                            <a href="<?= site_url($item->menu_link) ?>" class="list-group-item list-group-item-action text-capitalize"><?= $item->menu_name ?></a>
                         <?php endforeach ?>
                     </div>
                 </div>

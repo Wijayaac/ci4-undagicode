@@ -13,8 +13,8 @@ class AddTableMainMenu extends Migration
 			'id' => [
 				'type' => 'INT',
 				'constraint' => 2,
-				'unsigned'	=> 'true',
-				'auto_increment' => 'true'
+				'unsigned'	=> true,
+				'auto_increment' => true
 			],
 			'menu_name' => [
 				'type'	=> 'VARCHAR',
