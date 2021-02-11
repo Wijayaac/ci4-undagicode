@@ -102,7 +102,7 @@
 <!-- close button script -->
 <script>
     $('.modal').on('click', '.close-modal', function() {
-        window.location.href = '<?= site_url('/'); ?>';
+        window.location.href = '<?= site_url('/product'); ?>';
     });
 </script>
 <!-- TinyMCE script use for adding plugin -->
