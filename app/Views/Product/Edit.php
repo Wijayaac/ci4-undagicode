@@ -12,6 +12,7 @@
             <!-- Modal body -->
             <!-- Form for update data on database, pass data to Controller Product method update -->
             <form action="<?= site_url(); ?>product/update" method="post" enctype="multipart/form-data">
+                <?= csrf_field() ?>
                 <div class="modal-body">
                     <div class="form-group">
                         <!-- Field id type : hidden, Field product name type :text -->

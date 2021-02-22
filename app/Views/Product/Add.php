@@ -12,6 +12,7 @@
             <!-- Modal body -->
             <!-- Form for input data into database pass into Controller Product methode save -->
             <form action="<?= site_url(); ?>product/save" method="post" enctype="multipart/form-data">
+                <?= csrf_field() ?>
                 <div class="modal-body">
                     <div class="form-group">
                         <!-- Field id : hidden , Field Product Name -->
