@@ -81,6 +81,35 @@ class Product extends BaseController
     /*
         * save method for adding data into database
     */
+
+    public function validation()
+    {
+        $validation =  \Config\Services::validation();
+        $validation->setRules([
+            'productName'   => [
+                    'label'  => 'Name',
+                    'rules'  =>  'is_unique[master_product.product_name]',
+                    'errors' => [
+                        'is_unique' => 'Please insert another product'
+                    ]
+                ],
+            'productPrice' => [
+                'label'  => 'Price',
+                'rules'  => 'integer',
+                'errors' => [
+                    'integer' => 'Please input just number'
+                ]
+                ],
+                'productWeight' => [
+                    'label' => 'Weight',
+                    'rules' => 'integer',
+                    'errors'=>
+                ]
+            ]
+    );
+        
+        
+    }
     public function save()
     {
         // @imageFile get image file from user input
@@ -92,12 +121,13 @@ class Product extends BaseController
         // TODO : if not empty move files into /uploads directory
         // TODO : and give random name into the files.
 
-        if ($imageFile->getError() == 4)
-        {
-            $imageName = 'untitled.png';
+            session()->setFlashdata('message', 'Please choose 1 seller');
+            return redirect()->to('/product/index');
         }
-        else
-        {
+
+        if ($imageFile->getError() == 4) {
+            $imageName = 'untitled.png';
+        } else {
             $imageName = $imageFile->getRandomName();
             $imageFile->move('uploads/', $imageName);
         }
@@ -125,19 +155,16 @@ class Product extends BaseController
         //  TODO : if @data added redirect into index method / Home Page
         // TODO : if @data can't added show an error message
 
-        if ($this->modelProduct->insert($data))
-        {
-            return redirect()->to('/');
-        }
-        else
-        {
+        if ($this->modelProduct->insert($data)) {
+            return redirect()->to('/product/index');
+        } else {
             echo "Fail";
         }
 
         // *return a method for redirect into index method / Home Page
         // using redirect method built-in CodeIgniter
 
-        return redirect()->to('/');
+        return redirect()->to('/product/index');
     }
     /*
         * delete method for deleting data base on @id param
@@ -153,23 +180,19 @@ class Product extends BaseController
         // * vice versa
         // TODO if data can'n be deleted show an error
 
-        if ($this->modelProduct->delete($id))
-        {
-            if ($dataImage['image'] !== 'untitled.png')
-            {
+        if ($this->modelProduct->delete($id)) {
+            if ($dataImage['image'] !== 'untitled.png') {
                 unlink('uploads/' . $dataImage['image']);
             }
             return redirect()->to('/');
-        }
-        else
-        {
+        } else {
             echo "Error";
         }
 
         // *return a method for redirect into index method / Home Page
         // using redirect method built-in CodeIgniter
 
-        return redirect()->to('/');
+        return redirect()->to('/product/index');
     }
     /*
         * edit method for sending Edit form Modal to user
@@ -209,19 +232,14 @@ class Product extends BaseController
         // TODO : if there is an image inserted, and the image before is 'untitled.png',
         // just move the new image into /uploads directory
 
-        if ($imageFile->getError() === 4)
-        {
+        if ($imageFile->getError() === 4) {
             $imageName = $oldImage;
-        }
-        elseif ($oldImage != 'untitled.png')
-        {
+        } elseif ($oldImage != 'untitled.png') {
             unlink('uploads/' . $oldImage);
 
             $imageName = $imageFile->getRandomName();
             $imageFile->move('uploads/', $imageName);
-        }
-        else
-        {
+        } else {
             $imageName = $imageFile->getRandomName();
             $imageFile->move('uploads/', $imageName);
         }
@@ -247,19 +265,16 @@ class Product extends BaseController
         //  TODO : if @data added redirect into index method / Home Page
         // TODO : if @data can't added show an error message
 
-        if ($this->modelProduct->update($oldId, $data))
-        {
-            return redirect()->to('/');
-        }
-        else
-        {
+        if ($this->modelProduct->update($oldId, $data)) {
+            return redirect()->to('/product/index');
+        } else {
             echo "Failed";
         }
 
         // *return a method for redirect into index method / Home Page
         // using redirect method built-in CodeIgniter
 
-        return redirect()->to('/');
+        return redirect()->to('/product/index');
     }
     /*
         * print method for printing data from database

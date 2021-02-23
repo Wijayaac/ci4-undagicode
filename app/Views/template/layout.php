@@ -9,15 +9,15 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="<?= base_url('assets/icons/css/all.min.css') ?>" crossorigin="anonymous" />
+    <link rel="stylesheet" href="<?= base_url('assets/icons/css/all.min.css') ?>" />
     <!-- Bootstrap V.4.3.1 CDN -->
-    <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
     <!-- Custom style css for simple sidebar -->
     <link rel="stylesheet" href="<?= base_url('assets/css/style.css') ?>">
     <!-- TinyMCE textarea editor APIKey  -->
     <script src="https://cdn.tiny.cloud/1/bmq852wo3zyrki97cj1ke2rjji5q65rayhgfv3bfk75fjgyv/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <!-- jQuery Scripts -->
-    <script src="<?= base_url('assets/js/jquery.min.js') ?>" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
+    <script src="<?= base_url('assets/js/jquery.min.js') ?>"></script>
 
 </head>
 
@@ -70,8 +70,8 @@
     <!-- /#wrapper -->
 
     <!-- Bootstrap core JavaScript -->
-    <script src="<?= base_url('assets/js/popper.min.js') ?>" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="<?= base_url('assets/js/bootstrap.min.js') ?>" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="<?= base_url('assets/js/popper.min.js') ?>"></script>
+    <script src="<?= base_url('assets/js/bootstrap.min.js') ?>"></script>
 
     <!-- Menu Toggle Script -->
     <script>

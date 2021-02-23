@@ -4,6 +4,18 @@
 <div class="text-center mt-5">
     <h3 class="text-center">Master Product</h3>
 </div>
+
+<?php if (session()->getFlashdata('message') == true) : ?>
+    <div class='alert alert-primary alert-dismissible show text-white mt-1' role='alert'>
+        <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+            <span aria-hidden='true' class="text-black">'&times;'</span>
+            <span class='sr-only'>Close</span>
+        </button>
+        <strong>Info</strong> <?= session()->getFlashdata('message'); ?>
+    </div>
+<?php else : ?>
+
+<?php endif; ?>
 <div class="row m-lg-2">
     <div class="container-fluid p-md-3 shadow p-3 mb-5 bg-white rounded">
         <div class=" table-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl" style="overflow-y: hidden;">
