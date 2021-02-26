@@ -6,7 +6,7 @@
 </div>
 
 <?php if (session()->getFlashdata('message') == true) : ?>
-    <div class='alert alert-primary alert-dismissible show text-white mt-1' role='alert'>
+    <div class='alert alert-primary alert-dismissible show mt-1' role='alert'>
         <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
             <span aria-hidden='true' class="text-black">'&times;'</span>
             <span class='sr-only'>Close</span>
@@ -54,7 +54,7 @@
             <!-- End Master menu area -->
             <!-- Start Content Table -->
             <div class="container-fluid" style="overflow-y: scroll;height: 450px;">
-                <table class="table table-hover">
+                <table class="table table-hover" id="dataList">
                     <thead class="bg-dark text-light">
                         <tr>
                             <th scope="col">Product</th>
@@ -103,6 +103,7 @@
 <div id="modal-item">
 
 </div>
+
 <script type="text/javascript">
     // *Calling add method using jQuery ajax request
     // TODO : if success showing modal form add, else error vice versa
@@ -138,4 +139,11 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        $('#dataList').DataTable();
+    });
+</script>
+<link rel="stylesheet" type="text/css" src="<?= base_url() ?>assets/css/jquery.dataTables.min.css">
+<script src="<?= base_url() ?>assets/js/jquery.dataTables.min.js"></script>
 <?= $this->endSection() ?>

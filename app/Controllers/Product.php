@@ -39,7 +39,7 @@ class Product extends BaseController
         // @pager method use for pointing into another data
 
         $data = [
-            'products' => $this->modelProduct->paginate(1, 'bootstrap'),
+            'products' => $this->modelProduct->paginate(4, 'bootstrap'),
             'pager'    => $this->modelProduct->pager,
         ];
 
@@ -84,31 +84,150 @@ class Product extends BaseController
 
     public function validation()
     {
-        $validation =  \Config\Services::validation();
-        $validation->setRules([
+        $validated = $this->validate([
             'productName'   => [
-                    'label'  => 'Name',
-                    'rules'  =>  'is_unique[master_product.product_name]',
-                    'errors' => [
-                        'is_unique' => 'Please insert another product'
-                    ]
+                'rules'  =>  'is_unique[master_product.product_name]',
+                'errors' =>  [
+                    'is_unique' => 'Please insert another product'
                 ],
+            ],
             'productPrice' => [
-                'label'  => 'Price',
                 'rules'  => 'integer',
                 'errors' => [
                     'integer' => 'Please input just number'
-                ]
                 ],
-                'productWeight' => [
-                    'label' => 'Weight',
-                    'rules' => 'integer',
-                    'errors'=>
+            ],
+            'productWeight' => [
+                'rules' => 'integer',
+                'errors' => [
+                    'ineteger' => 'Please input just number'
+                ]
+            ],
+            'productTag' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Please input at least one tag'
+                ]
+            ],
+            'productStock' => [
+                'rules' => 'integer',
+                'errors' => ['integer' => 'Please input just number']
+            ],
+            'productDescription' => [
+                'rules' => 'required|max_length[1000]',
+                'errors' => [
+                    'required'   => 'Please input description',
+                    'max_length' => 'Maximum 1000 character'
+                ]
+            ],
+            'productImage' => [
+                'rules' => 'max_size[productImage,1024]|is_image[productImage]|mime_in[productImage,image/jpeg,image/png,image/jpg]',
+                'errors' => [
+                    'max_size' => 'Maximum upload 1024 KB',
+                    'is_image' => 'Please input an Image (jpg/png)',
+                    'mime_in'  => 'Please input an Image (jpg/png)',
+                ]
+            ],
+            'productSeller' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Please choose 1 seller'
                 ]
             ]
-    );
-        
-        
+        ]);
+
+        if ($validated) {
+            // @imageFile get image file from user input
+
+            $imageFile =    $this->request->getFile('productImage');
+
+            // *check if image isEmpty or not
+            // TODO : if empty give default filename
+            // TODO : if not empty move files into /uploads directory
+            // TODO : and give random name into the files.
+            if ($imageFile->getError() == 4) {
+                $imageName = 'untitled.png';
+            } else {
+                $imageName = $imageFile->getRandomName();
+                $imageFile->move('uploads/', $imageName);
+            }
+
+            // @data get data from user input and 
+            // *adding into an array
+
+            $data = [
+                'id'            => $this->request->getVar('id'),
+                'product_name'  => $this->request->getVar('productName'),
+                'price'         => $this->request->getVar('productPrice'),
+                'weight'        => $this->request->getVar('productWeight'),
+                'category'      => $this->request->getVar('productCategory'),
+                'tag'           => $this->request->getVar('productTag'),
+                'stock'         => $this->request->getVar('productStock'),
+                'description'   => $this->request->getVar('productDescription'),
+                'image'         => $imageName,
+                'seller'        => $this->request->getVar('productSeller'),
+
+            ];
+
+            // *Check if @data can added into database
+            // using insert method built-in CodeIgniter
+            // @param insert method (data that we want insert onto database array type)
+            //  TODO : if @data added redirect into index method / Home Page
+            // TODO : if @data can't added show an error message
+            $this->modelProduct->insert($data);
+            if ($this->dbAffectedRows() == 1) {
+                $response = [
+                    'result'   => 1,
+                    'message'   => "Product has been added"
+                ];
+            } else {
+                $response = [
+                    'result'   => 2,
+                    'message'   => "Product has not been added"
+                ];
+            }
+        } else {
+            $imageFile =    $this->request->getFile('productImage');
+
+            // *check if image isEmpty or not
+            // TODO : if empty give default filename
+            // TODO : if not empty move files into /uploads directory
+            // TODO : and give random name into the files.
+            if ($imageFile->getError() == 4) {
+                $imageName = 'untitled.png';
+            } else {
+                $imageName = $imageFile->getRandomName();
+            }
+            $response = [
+                'result'   => 3,
+                'message'   => [
+                    'errorName'         => $this->validator->getError('productName'),
+                    'errorPrice'        => $this->validator->getError('productPrice'),
+                    'errorWeight'       => $this->validator->getError('productWeight'),
+                    'errorCategory'     => $this->validator->getError('productCategory'),
+                    'errorTag'          => $this->validator->getError('productTag'),
+                    'errorStock'        => $this->validator->getError('productStock'),
+                    'errorDescription'  => $this->validator->getError('productDescription'),
+                    'errorImage'        => $this->validator->getError('productImage'),
+                    'errorSeller'       => $this->validator->getError('productSeller'),
+                ],
+                'data'                  => [
+                    'id'            => $this->request->getVar('id'),
+                    'product_name'  => $this->request->getVar('productName'),
+                    'price'         => $this->request->getVar('productPrice'),
+                    'weight'        => $this->request->getVar('productWeight'),
+                    'category'      => $this->request->getVar('productCategory'),
+                    'tag'           => $this->request->getVar('productTag'),
+                    'stock'         => $this->request->getVar('productStock'),
+                    'description'   => $this->request->getVar('productDescription'),
+                    'image'         => $imageName,
+                    'seller'        => $this->request->getVar('productSeller'),
+
+                ]
+            ];
+        }
+        // var_dump($response);
+        return $this->response->setJSON($response);
     }
     public function save()
     {
@@ -120,11 +239,6 @@ class Product extends BaseController
         // TODO : if empty give default filename
         // TODO : if not empty move files into /uploads directory
         // TODO : and give random name into the files.
-
-            session()->setFlashdata('message', 'Please choose 1 seller');
-            return redirect()->to('/product/index');
-        }
-
         if ($imageFile->getError() == 4) {
             $imageName = 'untitled.png';
         } else {
@@ -184,7 +298,7 @@ class Product extends BaseController
             if ($dataImage['image'] !== 'untitled.png') {
                 unlink('uploads/' . $dataImage['image']);
             }
-            return redirect()->to('/');
+            return redirect()->to('/product');
         } else {
             echo "Error";
         }
@@ -192,7 +306,7 @@ class Product extends BaseController
         // *return a method for redirect into index method / Home Page
         // using redirect method built-in CodeIgniter
 
-        return redirect()->to('/product/index');
+        return redirect()->to('/product');
     }
     /*
         * edit method for sending Edit form Modal to user

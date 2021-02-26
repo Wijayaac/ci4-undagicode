@@ -30,12 +30,9 @@ class ModelProduct extends Model
     {
         // TODO : Check if @value is not empty string, and then get the data
         // TODO : Check if @value is empty string, and then get all data 
-        if ($value != "")
-        {
+        if ($value != "") {
             return $this->db->query("SELECT * FROM master_product WHERE product_name LIKE '%" . $value . "%'")->getResultArray();
-        }
-        else
-        {
+        } else {
             return $this->db->query("SELECT * FROM master_product");
         }
     }

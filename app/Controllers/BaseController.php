@@ -43,4 +43,12 @@ class BaseController extends Controller
 		// E.g.:
 		// $this->session = \Config\Services::session();
 	}
+	// * function for seeing affected rows after insert and update run 
+	public function dbAffectedRows()
+	{
+		// manually run connection into database
+		// @ return affected rows value
+		$db = \Config\Database::connect();
+		return $db->affectedRows();
+	}
 }
