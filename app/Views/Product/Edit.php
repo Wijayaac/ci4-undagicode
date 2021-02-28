@@ -18,7 +18,7 @@
                         <!-- Field id type : hidden, Field product name type :text -->
                         <input type="hidden" name="id" value="<?= $product['id'] ?>">
                         <label for="">Product Name</label>
-                        <input type="text" name="productName" id="inputName" class="form-control" value="<?= $product['product_name'] ?>" required disabled>
+                        <input type="text" name="productName" id="inputName" class="form-control" value="<?= $product['product_name'] ?>" required>
                         <span class="text-danger small" id="errorName"></span>
                     </div>
                     <!-- Field Price type number -->
@@ -107,6 +107,7 @@
                             <?php endif ?>
                         </div>
                         <span class="text-danger small" id="errorSeller"></span>
+                        <span class="text-info small" id="messageInfo"></span>
                     </div>
 
                 </div>
@@ -151,30 +152,18 @@
             e.preventDefault();
             $('#updateProduct').html('Checking....');
             $('#updateProduct').prop('disabled');
-            if ($('#inputImage').val() == '') {
-                $.ajax({
-                    type: "POST",
-                    url: "<?= site_url('product/update') ?>",
-                    dataType: "json",
-                    data: new FormData(this),
-                    success: function(response) {
-                        result(response);
-                    }
-                })
-            } else {
-                $.ajax({
-                    type: "POST",
-                    url: "<?= site_url('product/update') ?>",
-                    data: new FormData(this),
-                    dataType: "json",
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function(response) {
-                        result(response);
-                    }
-                });
-            }
+            $.ajax({
+                type: "POST",
+                url: "<?= site_url('product/validation') ?>",
+                data: new FormData(this),
+                dataType: "json",
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(response) {
+                    result(response);
+                }
+            });
         });
     });
 
@@ -183,56 +172,11 @@
             case 1:
                 let close = confirm(response.message);
                 if (close) {
-                    window.location.href = '<?= site_url(' / product ') ?>';
+                    window.location.href = '<?= site_url('/product') ?>';
                 }
-                break;
-            case 2:
-                $('#messageInfo').html(response.message);
                 break;
             default:
-                var inputError = response.data;
-                console.log(response.data);
-                if (response.message.errorName !== '') {
-                    $('#errorName').html(response.message.errorName);
-                }
-                if (response.message.errorPrice !== '') {
-                    $('#errorPrice').html(response.message.errorPrice);
-                }
-                if (response.message.errorWeight !== '') {
-                    $('#errorWeight').html(response.message.errorWeight);
-                }
-                if (response.message.errorCategory !== '') {
-                    $('#errorCategory').html(response.message.errorCategory);
-                }
-                if (response.message.errorTag !== '') {
-                    $('#errorTag').html(response.message.errorTag);
-                }
-                if (response.message.errorStock !== '') {
-                    $('#errorStock').html(response.message.errorStock);
-                }
-                if (response.message.errorDescription !== '') {
-                    $('#errorDescription').html(response.message.errorDescription);
-                }
-                if (response.message.errorImage !== '') {
-                    $('#errorImage').html(response.message.errorImage);
-                }
-                if (response.message.errorSeller !== '') {
-                    $('#errorSeller').html(response.message.errorSeller);
-                }
-                $(document).ready(function() {
-                    $('#inputName').val(response.data.product_name);
-                    $('#inputPrice').val(response.data.price);
-                    $('#inputWeight').val(response.data.weight);
-                    $('#inputCategory').val(response.data.category);
-                    $('#inputStock').val(response.data.stock);
-                    if (response.data.seller == 'sumarecon store') {
-                        $('#inputSellerTrue').prop('checked', true);
-                    } else {
-                        $('#inputSellerFalse').prop('checked', true);
-                    }
-                    tinymce.get("inputTag").setContent(response.data.tag);
-                    tinymce.get("inputDescription").setContent(response.data.description);
-                });
+                $('#messageInfo').html(response.message);
                 break;
         }
         $('#updateProduct').html('Save');

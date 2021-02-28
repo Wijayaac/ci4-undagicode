@@ -282,28 +282,28 @@ class Product extends BaseController
 
 
         $isValid = $this->validate([
-            // 'productPrice' => [
-            //     'rules'  => 'integer',
-            //     'errors' => [
-            //         'integer' => 'Please input just number'
-            //     ],
-            // ],
-            // 'productWeight' => [
-            //     'rules' => 'integer',
-            //     'errors' => [
-            //         'ineteger' => 'Please input just number'
-            //     ]
-            // ],
+            'productPrice' => [
+                'rules'  => 'integer',
+                'errors' => [
+                    'integer' => 'Please input just number'
+                ],
+            ],
+            'productWeight' => [
+                'rules' => 'integer',
+                'errors' => [
+                    'ineteger' => 'Please input just number'
+                ]
+            ],
             'productTag' => [
                 'rules' => 'required',
                 'errors' => [
                     'required' => 'Please input at least one tag'
                 ]
             ],
-            // 'productStock' => [
-            //     'rules' => 'integer',
-            //     'errors' => ['integer' => 'Please input just number']
-            // ],
+            'productStock' => [
+                'rules' => 'integer',
+                'errors' => ['integer' => 'Please input just number']
+            ],
             'productDescription' => [
                 'rules' => 'required|max_length[1000]',
                 'errors' => [
@@ -311,20 +311,20 @@ class Product extends BaseController
                     'max_length' => 'Maximum 1000 character'
                 ]
             ],
-            // 'productImage' => [
-            //     'rules' => 'max_size[productImage,1024]|is_image[productImage]|mime_in[productImage,image/jpeg,image/png,image/jpg]',
-            //     'errors' => [
-            //         'max_size' => 'Maximum upload 1024 KB',
-            //         'is_image' => 'Please input an Image (jpg/png)',
-            //         'mime_in'  => 'Please input an Image (jpg/png)',
-            //     ]
-            // ],
-            // 'productSeller' => [
-            //     'rules' => 'required',
-            //     'errors' => [
-            //         'required' => 'Please choose 1 seller'
-            //     ]
-            // ]
+            'productImage' => [
+                'rules' => 'max_size[productImage,1024]|is_image[productImage]|mime_in[productImage,image/jpeg,image/png,image/jpg]',
+                'errors' => [
+                    'max_size' => 'Maximum upload 1024 KB',
+                    'is_image' => 'Please input an Image (jpg/png)',
+                    'mime_in'  => 'Please input an Image (jpg/png)',
+                ]
+            ],
+            'productSeller' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Please choose 1 seller'
+                ]
+            ]
         ]);
         $productId          = $this->request->getVar('id');
         $productName        = $this->request->getVar('productName');
@@ -384,19 +384,19 @@ class Product extends BaseController
             // @param insert method (data that we want insert onto database array type)
             //  TODO : if @data added redirect into index method / Home Page
             // TODO : if @data can't added show an error message
-            // $this->modelProduct->update($productId, $data);
-            // var_dump($this->dbAffectedRows());
-            // if ($this->dbAffectedRows() == 1) {
-            //     $response = [
-            //         'result'   => 1,
-            //         'message'   => "Product has been updated"
-            //     ];
-            // } else {
-            //     $response = [
-            //         'result'   => 2,
-            //         'message'   => "Product has not been updated"
-            //     ];
-            // }
+            $this->modelProduct->update($productId, $data);
+            var_dump($this->dbAffectedRows());
+            if ($this->dbAffectedRows() == 1) {
+                $response = [
+                    'result'   => 1,
+                    'message'   => "Product has been updated"
+                ];
+            } else {
+                $response = [
+                    'result'   => 2,
+                    'message'   => "Product has not been updated"
+                ];
+            }
         } else {
             var_dump("ini ga valid");
             $response = [
@@ -423,6 +423,78 @@ class Product extends BaseController
                     'seller'        => $productSeller,
 
                 ]
+            ];
+        }
+        // return json_encode(var_dump($this->dbAffectedRows()));
+        return $this->response->setJSON($response);
+    }
+    public function validation()
+    {
+
+        $productId          = $this->request->getVar('id');
+        $productName        = $this->request->getVar('productName');
+        $productPrice       = $this->request->getVar('productPrice');
+        $productWeight      = $this->request->getVar('productWeight');
+        $productCategory    = $this->request->getVar('productCategory');
+        $productStock       = $this->request->getVar('productStock');
+        $productTag         = $this->request->getVar('productTag');
+        $productDescription = $this->request->getVar('productDescription');
+        $productSeller      = $this->request->getVar('productSeller');
+
+        $oldData        = $this->modelProduct->find($productId);
+        $oldImage       = $oldData['image'];
+        // *compare image data old and new one
+        // TODO : if there is no image inserted, so the image not updated
+        // TODO : if there is an image inserted, and the image before is not 'untitled.png' 
+        // so delete that image from /uploads directory
+        // TODO : if there is an image inserted, and the image before is 'untitled.png',
+        // just move the new image into /uploads directory
+        $imageFile  = $this->request->getFile('productImage');
+
+        if ($imageFile->getError() === 4) {
+            $imageName = $oldImage;
+        } elseif ($oldImage != 'untitled.png') {
+            unlink('uploads/' . $oldImage);
+
+            $imageName = $imageFile->getRandomName();
+            $imageFile->move('uploads/', $imageName);
+        } else {
+            $imageName = $imageFile->getRandomName();
+            $imageFile->move('uploads/', $imageName);
+        }
+
+        // @data get data from user input and 
+        // *adding into an array
+
+        $data = [
+            'product_name'  => $productName,
+            'price'         => $productPrice,
+            'weight'        => $productWeight,
+            'category'      => $productCategory,
+            'tag'           => $productTag,
+            'stock'         => $productStock,
+            'description'   => $productDescription,
+            'image'         => $imageName,
+            'seller'        => $productSeller,
+
+        ];
+
+        // *Check if @data can added into database
+        // using insert method built-in CodeIgniter
+        // @param insert method (data that we want insert onto database array type)
+        //  TODO : if @data added redirect into index method / Home Page
+        // TODO : if @data can't added show an error message
+        $this->modelProduct->update($productId, $data);
+        // var_dump($this->dbAffectedRows());
+        if ($this->dbAffectedRows() == 1) {
+            $response = [
+                'result'   => 1,
+                'message'   => "Product has been updated"
+            ];
+        } else {
+            $response = [
+                'result'   => 2,
+                'message'   => "Product has not been updated"
             ];
         }
         // return json_encode(var_dump($this->dbAffectedRows()));
