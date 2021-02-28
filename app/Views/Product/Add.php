@@ -82,7 +82,7 @@
                         <div class="form-group">
                             <label for="">Picture</label>
                             <img id="placeholder" src="<?= base_url('uploads/untitled.png') ?>" alt="your image" /></br></br>
-                            <input type="file" class="form-control-file" accept="image/*" id="inputImage" name="productImage" onchange="readURL(this);">
+                            <input type="file" class="form-control-file" accept="image/*" id="inputImage" name="productImage" onchange="readURL(this);" required>
                             <span id="errorImage" class="text-danger small"></span>
                         </div>
                         <!-- Field Seller type radio btn -->
@@ -113,7 +113,6 @@
     <script>
         tinymce.init({
             selector: 'textarea',
-            plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
             toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
             toolbar_mode: 'floating',
             tinycomments_mode: 'embedded',
@@ -151,7 +150,7 @@
                     } else {
                         $.ajax({
                             method: "POST",
-                            url: "<?= site_url('product/validation') ?>",
+                            url: "<?= site_url('product/save') ?>",
                             data: new FormData(this),
                             dataType: "json",
                             contentType: false,

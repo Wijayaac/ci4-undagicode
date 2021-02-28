@@ -145,7 +145,6 @@ class Product extends BaseController
         $productDescription = $this->request->getVar('productDescription');
         $productSeller      = $this->request->getVar('productSeller');
 
-        return json_encode(var_dump($isValid));
         if ($isValid) {
             // @imageFile get image file from user input
 
