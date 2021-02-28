@@ -64,12 +64,12 @@
                             <th scope="col">Tag</th>
                             <th scope="col">Stock(Pcs.)</th>
                             <th scope="col">Caption</th>
-                            <th scope="col">Picture</th>
                             <th scope="col">Seller</th>
+                            <th scope="col">Picture</th>
                             <th scope="col">More...</th>
                         </tr>
                     </thead>
-                    <tbody class="master-data">
+                    <tbody class="master-data" id="master-data">
                         <!-- Get data we pass from controller using forEach method -->
                         <?php foreach ($products as $item) : ?>
                             <tr>
@@ -80,12 +80,11 @@
                                 <td class="text-capitalize"> <?= $item['tag'] ?></td>
                                 <td class="text-capitalize"> <?= $item['stock'] ?></td>
                                 <td class="text-capitalize"> <?= $item['description'] ?></td>
-                                <td> <img src="<?= base_url('uploads/' . $item['image']) ?>" class="img-fluid w-50" alt="" srcset="">
-                                </td>
                                 <td class="text-capitalize"> <?= $item['seller'] ?></td>
+                                <td> <img src="<?= base_url('uploads/' . $item['image']) ?>" class="img-fluid w-50" alt="" srcset=""></td>
                                 <td>
                                     <a id="btn-edit" href="javascript:;" data="<?= site_url('product/edit/' . $item['id']) ?>" class="btn btn-outline-warning btn-lg m-2"><i class="fas fa-magic fa-xs"></i></a>
-                                    <a id="btn-trash" href="<?= site_url('product/delete/' . $item['id']) ?>" data="" class="btn btn-outline-danger btn-lg m-2"><i class="fas fa-trash fa-xs"></i></a>
+                                    <a id="btn-trash" href="javascript:;" data="<?= site_url('product/delete/' . $item['id']) ?>" class="btn btn-outline-danger btn-lg m-2"><i class="fas fa-trash fa-xs"></i></a>
                                 </td>
                             </tr>
                         <?php endforeach
@@ -109,10 +108,10 @@
     // TODO : if success showing modal form add, else error vice versa
     $('.master-data').on('click', '.btn-add', function(e) {
 
-        var addUrl = $(this).attr('data');
+        var addURL = $(this).attr('data');
         $.ajax({
             type: "post",
-            url: addUrl,
+            url: addURL,
             success: function(response) {
                 $('#modal-item').html(response);
                 $('#modalAdd').modal('show');
@@ -125,16 +124,29 @@
     //  * Calling edit method using jQuery ajax request
     // TODO : if success showing modal form edit , else error vice versa
     $('.master-data').on('click', '#btn-edit', function() {
-        var editUrl = $(this).attr('data');
+        var editURL = $(this).attr('data');
         $.ajax({
             type: "post",
-            url: editUrl,
+            url: editURL,
             success: function(response) {
                 $('#modal-item').html(response);
                 $('#modalEdit').modal('show');
             },
             error: function() {
                 alert('Modal Error');
+            }
+        });
+    });
+    $('.master-data').on('click', '#btn-trash', function() {
+        var deleteURL = $(this).attr('data');
+        $.ajax({
+            type: "post",
+            url: deleteURL,
+            success: function(response) {
+                $('#master-data').load(' #master-data > *');
+            },
+            error: function() {
+                alert('Error Deleted');
             }
         });
     });

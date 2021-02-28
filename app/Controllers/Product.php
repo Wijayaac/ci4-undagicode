@@ -81,10 +81,9 @@ class Product extends BaseController
     /*
         * save method for adding data into database
     */
-
-    public function validation()
+    public function save()
     {
-        $validated = $this->validate([
+        $isValid = $this->validate([
             'productName'   => [
                 'rules'  =>  'is_unique[master_product.product_name]',
                 'errors' =>  [
@@ -136,10 +135,22 @@ class Product extends BaseController
             ]
         ]);
 
-        if ($validated) {
+        $productId          = $this->request->getVar('id');
+        $productName        = $this->request->getVar('productName');
+        $productPrice       = $this->request->getVar('productPrice');
+        $productWeight      = $this->request->getVar('productWeight');
+        $productCategory    = $this->request->getVar('productCategory');
+        $productStock       = $this->request->getVar('productStock');
+        $productTag         = $this->request->getVar('productTag');
+        $productDescription = $this->request->getVar('productDescription');
+        $productSeller      = $this->request->getVar('productSeller');
+
+        return json_encode(var_dump($isValid));
+        if ($isValid) {
             // @imageFile get image file from user input
 
             $imageFile =    $this->request->getFile('productImage');
+
 
             // *check if image isEmpty or not
             // TODO : if empty give default filename
@@ -156,16 +167,16 @@ class Product extends BaseController
             // *adding into an array
 
             $data = [
-                'id'            => $this->request->getVar('id'),
-                'product_name'  => $this->request->getVar('productName'),
-                'price'         => $this->request->getVar('productPrice'),
-                'weight'        => $this->request->getVar('productWeight'),
-                'category'      => $this->request->getVar('productCategory'),
-                'tag'           => $this->request->getVar('productTag'),
-                'stock'         => $this->request->getVar('productStock'),
-                'description'   => $this->request->getVar('productDescription'),
+                'id'            => $productId,
+                'product_name'  => $productName,
+                'price'         => $productPrice,
+                'weight'        => $productWeight,
+                'category'      => $productCategory,
+                'tag'           => $productTag,
+                'stock'         => $productStock,
+                'description'   => $productDescription,
                 'image'         => $imageName,
-                'seller'        => $this->request->getVar('productSeller'),
+                'seller'        => $productSeller,
 
             ];
 
@@ -187,17 +198,6 @@ class Product extends BaseController
                 ];
             }
         } else {
-            $imageFile =    $this->request->getFile('productImage');
-
-            // *check if image isEmpty or not
-            // TODO : if empty give default filename
-            // TODO : if not empty move files into /uploads directory
-            // TODO : and give random name into the files.
-            if ($imageFile->getError() == 4) {
-                $imageName = 'untitled.png';
-            } else {
-                $imageName = $imageFile->getRandomName();
-            }
             $response = [
                 'result'   => 3,
                 'message'   => [
@@ -212,73 +212,21 @@ class Product extends BaseController
                     'errorSeller'       => $this->validator->getError('productSeller'),
                 ],
                 'data'                  => [
-                    'id'            => $this->request->getVar('id'),
-                    'product_name'  => $this->request->getVar('productName'),
-                    'price'         => $this->request->getVar('productPrice'),
-                    'weight'        => $this->request->getVar('productWeight'),
-                    'category'      => $this->request->getVar('productCategory'),
-                    'tag'           => $this->request->getVar('productTag'),
-                    'stock'         => $this->request->getVar('productStock'),
-                    'description'   => $this->request->getVar('productDescription'),
-                    'image'         => $imageName,
-                    'seller'        => $this->request->getVar('productSeller'),
+                    'id'            => $productId,
+                    'product_name'  => $productName,
+                    'price'         => $productPrice,
+                    'weight'        => $productWeight,
+                    'category'      => $productCategory,
+                    'tag'           => $productTag,
+                    'stock'         => $productStock,
+                    'description'   => $productDescription,
+                    'seller'        => $productSeller,
 
                 ]
             ];
         }
-        // var_dump($response);
+
         return $this->response->setJSON($response);
-    }
-    public function save()
-    {
-        // @imageFile get image file from user input
-
-        $imageFile =    $this->request->getFile('productImage');
-
-        // *check if image isEmpty or not
-        // TODO : if empty give default filename
-        // TODO : if not empty move files into /uploads directory
-        // TODO : and give random name into the files.
-        if ($imageFile->getError() == 4) {
-            $imageName = 'untitled.png';
-        } else {
-            $imageName = $imageFile->getRandomName();
-            $imageFile->move('uploads/', $imageName);
-        }
-
-        // @data get data from user input and 
-        // *adding into an array
-
-        $data = [
-            'id'            => $this->request->getVar('id'),
-            'product_name'  => $this->request->getVar('productName'),
-            'price'         => $this->request->getVar('productPrice'),
-            'weight'        => $this->request->getVar('productWeight'),
-            'category'      => $this->request->getVar('productCategory'),
-            'tag'           => $this->request->getVar('productTag'),
-            'stock'         => $this->request->getVar('productStock'),
-            'description'   => $this->request->getVar('productDescription'),
-            'image'         => $imageName,
-            'seller'        => $this->request->getVar('productSeller'),
-
-        ];
-
-        // *Check if @data can added into database
-        // using insert method built-in CodeIgniter
-        // @param insert method (data that we want insert onto database array type)
-        //  TODO : if @data added redirect into index method / Home Page
-        // TODO : if @data can't added show an error message
-
-        if ($this->modelProduct->insert($data)) {
-            return redirect()->to('/product/index');
-        } else {
-            echo "Fail";
-        }
-
-        // *return a method for redirect into index method / Home Page
-        // using redirect method built-in CodeIgniter
-
-        return redirect()->to('/product/index');
     }
     /*
         * delete method for deleting data base on @id param
@@ -329,66 +277,157 @@ class Product extends BaseController
     */
     public function update()
     {
-
-        // @oldId, @imageFile get from user input form
-        // @oldData, @oldImage get from database data
+        // @oldId, @imageFile, @newProduct get from user input form
+        // @oldData, @oldImage, @oldName get from database data
         // * we get all of these data to compare, it so we can update it on database
 
-        $oldId      = $this->request->getVar('id');
-        $oldData    = $this->modelProduct->find($oldId);
-        $oldImage   = $oldData['image'];
-        $imageFile  = $this->request->getFile('productImage');
 
-        // *compare image data old and new one
-        // TODO : if there is no image inserted, so the image not updated
-        // TODO : if there is an image inserted, and the image before is not 'untitled.png' 
-        // so delete that image from /uploads directory
-        // TODO : if there is an image inserted, and the image before is 'untitled.png',
-        // just move the new image into /uploads directory
+        $isValid = $this->validate([
+            // 'productPrice' => [
+            //     'rules'  => 'integer',
+            //     'errors' => [
+            //         'integer' => 'Please input just number'
+            //     ],
+            // ],
+            // 'productWeight' => [
+            //     'rules' => 'integer',
+            //     'errors' => [
+            //         'ineteger' => 'Please input just number'
+            //     ]
+            // ],
+            'productTag' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Please input at least one tag'
+                ]
+            ],
+            // 'productStock' => [
+            //     'rules' => 'integer',
+            //     'errors' => ['integer' => 'Please input just number']
+            // ],
+            'productDescription' => [
+                'rules' => 'required|max_length[1000]',
+                'errors' => [
+                    'required'   => 'Please input description',
+                    'max_length' => 'Maximum 1000 character'
+                ]
+            ],
+            // 'productImage' => [
+            //     'rules' => 'max_size[productImage,1024]|is_image[productImage]|mime_in[productImage,image/jpeg,image/png,image/jpg]',
+            //     'errors' => [
+            //         'max_size' => 'Maximum upload 1024 KB',
+            //         'is_image' => 'Please input an Image (jpg/png)',
+            //         'mime_in'  => 'Please input an Image (jpg/png)',
+            //     ]
+            // ],
+            // 'productSeller' => [
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => 'Please choose 1 seller'
+            //     ]
+            // ]
+        ]);
+        $productId          = $this->request->getVar('id');
+        $productName        = $this->request->getVar('productName');
+        $productPrice       = $this->request->getVar('productPrice');
+        $productWeight      = $this->request->getVar('productWeight');
+        $productCategory    = $this->request->getVar('productCategory');
+        $productStock       = $this->request->getVar('productStock');
+        $productTag         = $this->request->getVar('productTag');
+        $productDescription = $this->request->getVar('productDescription');
+        $productSeller      = $this->request->getVar('productSeller');
 
-        if ($imageFile->getError() === 4) {
-            $imageName = $oldImage;
-        } elseif ($oldImage != 'untitled.png') {
-            unlink('uploads/' . $oldImage);
+        $oldData        = $this->modelProduct->find($productId);
+        $oldImage       = $oldData[0]['image'];
+        var_dump($oldImage);
+        var_dump($isValid);
+        if ($isValid) {
+            var_dump("ini valid");
 
-            $imageName = $imageFile->getRandomName();
-            $imageFile->move('uploads/', $imageName);
+            // *compare image data old and new one
+            // TODO : if there is no image inserted, so the image not updated
+            // TODO : if there is an image inserted, and the image before is not 'untitled.png' 
+            // so delete that image from /uploads directory
+            // TODO : if there is an image inserted, and the image before is 'untitled.png',
+            // just move the new image into /uploads directory
+            $imageFile  = $this->request->getFile('productImage');
+
+            if ($imageFile->getError() === 4) {
+                $imageName = $oldImage;
+            } elseif ($oldImage != 'untitled.png') {
+                unlink('uploads/' . $oldImage);
+
+                $imageName = $imageFile->getRandomName();
+                $imageFile->move('uploads/', $imageName);
+            } else {
+                $imageName = $imageFile->getRandomName();
+                $imageFile->move('uploads/', $imageName);
+            }
+
+            // @data get data from user input and 
+            // *adding into an array
+
+            $data = [
+                'product_name'  => $this->request->getVar('productName'),
+                'price'         =>  $this->request->getVar('productPrice'),
+                'weight'        => $this->request->getVar('productWeight'),
+                'category'      => $this->request->getVar('productCategory'),
+                'tag'           => $this->request->getVar('productTag'),
+                'stock'         => $this->request->getVar('productStock'),
+                'description'   => $this->request->getVar('productDescription'),
+                'image'         => $imageName,
+                'seller'        => $this->request->getVar('productSeller'),
+
+            ];
+
+            // *Check if @data can added into database
+            // using insert method built-in CodeIgniter
+            // @param insert method (data that we want insert onto database array type)
+            //  TODO : if @data added redirect into index method / Home Page
+            // TODO : if @data can't added show an error message
+            // $this->modelProduct->update($productId, $data);
+            // var_dump($this->dbAffectedRows());
+            // if ($this->dbAffectedRows() == 1) {
+            //     $response = [
+            //         'result'   => 1,
+            //         'message'   => "Product has been updated"
+            //     ];
+            // } else {
+            //     $response = [
+            //         'result'   => 2,
+            //         'message'   => "Product has not been updated"
+            //     ];
+            // }
         } else {
-            $imageName = $imageFile->getRandomName();
-            $imageFile->move('uploads/', $imageName);
+            var_dump("ini ga valid");
+            $response = [
+                'result'   => 3,
+                'message'   => [
+                    'errorName'         => $this->validator->getError('productName'),
+                    'errorPrice'        => $this->validator->getError('productPrice'),
+                    'errorWeight'       => $this->validator->getError('productWeight'),
+                    'errorCategory'     => $this->validator->getError('productCategory'),
+                    'errorTag'          => $this->validator->getError('productTag'),
+                    'errorStock'        => $this->validator->getError('productStock'),
+                    'errorDescription'  => $this->validator->getError('productDescription'),
+                    'errorImage'        => $this->validator->getError('productImage'),
+                    'errorSeller'       => $this->validator->getError('productSeller'),
+                ],
+                'data'                  => [
+                    'product_name'  => $productName,
+                    'price'         => $productPrice,
+                    'weight'        => $productWeight,
+                    'category'      => $productCategory,
+                    'tag'           => $productTag,
+                    'stock'         => $productStock,
+                    'description'   => $productDescription,
+                    'seller'        => $productSeller,
+
+                ]
+            ];
         }
-
-        // @data get data from user input and 
-        // *adding into an array
-
-        $data = [
-            'product_name'  => $this->request->getVar('productName'),
-            'price'         => $this->request->getVar('productPrice'),
-            'weight'        => $this->request->getVar('productWeight'),
-            'category'      => $this->request->getVar('productCategory'),
-            'tag'           => $this->request->getVar('productTag'),
-            'stock'         => $this->request->getVar('productStock'),
-            'description'   => $this->request->getVar('productDescription'),
-            'image'         => $imageName,
-            'seller'        => $this->request->getVar('productSeller'),
-        ];
-
-        // *Check if @data can added into database
-        // using update method built-in CodeIgniter
-        // @params update method(the id of specific data, new data array type)
-        //  TODO : if @data added redirect into index method / Home Page
-        // TODO : if @data can't added show an error message
-
-        if ($this->modelProduct->update($oldId, $data)) {
-            return redirect()->to('/product/index');
-        } else {
-            echo "Failed";
-        }
-
-        // *return a method for redirect into index method / Home Page
-        // using redirect method built-in CodeIgniter
-
-        return redirect()->to('/product/index');
+        // return json_encode(var_dump($this->dbAffectedRows()));
+        return $this->response->setJSON($response);
     }
     /*
         * print method for printing data from database
