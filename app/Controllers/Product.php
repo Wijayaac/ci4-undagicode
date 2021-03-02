@@ -55,19 +55,35 @@ class Product extends BaseController
     {
         // @search get data from input post request
 
-        $search     = $this->request->getVar('search');
+        $value     = $this->request->getVar('search');
 
         // @data get data from model class
         // * use getSearch method with parameter(input value @search)
+        $products = $this->modelProduct->getSearch($value);
+        // foreach ($products->getResult('array') as $product) {
 
-        $data       = [
-            'product' => $this->modelProduct->getSearch($search),
-        ];
-
+        //     $response = "
+        // <tr>
+        //                         <td class='text-capitalize'>" . $product['product_name'] . "</td>
+        //                         <td class='text-capitalize'>" . $product['price'] . "</td>
+        //                         <td class='text-capitalize'>" . $product['weight'] . "</td>
+        //                         <td class='text-capitalize'>" . $product['category'] . "</td>
+        //                         <td class='text-capitalize'>" . $product['tag'] . "</td>
+        //                         <td class='text-capitalize'>" . $product['stock'] . "</td>
+        //                         <td class='text-capitalize'>" . $product['description'] . "</td>
+        //                         <td class='text-capitalize'>" . $product['seller'] . "</td>
+        //                         <td> <img src='" . base_url('uploads/' . $product['image'] . '') . "' class='img-fluid w-50' alt='' srcset=''></td>
+        //                         <td>
+        //                             <a id='btn-edit' href='javascript:;' data=" . site_url('product/edit/' . $product['id']) . " class='btn btn-outline-warning btn-lg m-2'><i class='fas fa-magic fa-xs'></i></a>
+        //                             <a id='btn-trash' href='javascript:;' data=" . site_url('product/delete/' . $product['id']) . " class='btn btn-outline-danger btn-lg m-2'><i class='fas fa-trash fa-xs'></i></a>
+        //                         </td>
+        //                     </tr>
+        // ";
+        // }
         // *return view method which is render the Views page
         //  also passing the data we get before
-
-        return view('Product/Search', $data);
+        // return $response;
+        return $this->response->setJSON($products);
     }
     /*
         * add method for sending Add form Modal to user
@@ -337,11 +353,8 @@ class Product extends BaseController
         $productSeller      = $this->request->getVar('productSeller');
 
         $oldData        = $this->modelProduct->find($productId);
-        $oldImage       = $oldData[0]['image'];
-        var_dump($oldImage);
-        var_dump($isValid);
+        $oldImage       = $oldData['image'];
         if ($isValid) {
-            var_dump("ini valid");
 
             // *compare image data old and new one
             // TODO : if there is no image inserted, so the image not updated
@@ -385,7 +398,6 @@ class Product extends BaseController
             //  TODO : if @data added redirect into index method / Home Page
             // TODO : if @data can't added show an error message
             $this->modelProduct->update($productId, $data);
-            var_dump($this->dbAffectedRows());
             if ($this->dbAffectedRows() == 1) {
                 $response = [
                     'result'   => 1,
@@ -398,7 +410,6 @@ class Product extends BaseController
                 ];
             }
         } else {
-            var_dump("ini ga valid");
             $response = [
                 'result'   => 3,
                 'message'   => [

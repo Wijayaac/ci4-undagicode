@@ -80,8 +80,8 @@
                         </div>
                         <!-- Field picture type file : image -->
                         <div class="form-group">
-                            <label for="">Picture</label>
-                            <img id="placeholder" src="<?= base_url('uploads/untitled.png') ?>" alt="your image" /></br></br>
+                            <label for="">Picture</label><br>
+                            <img id="placeholder" class="img-thumbnail" style="width: 100px; height: 75px;" src="<?= base_url('uploads/untitled.png') ?>" alt="your image" /></br></br>
                             <input type="file" class="form-control-file" accept="image/*" id="inputImage" name="productImage" onchange="readURL(this);" required>
                             <span id="errorImage" class="text-danger small"></span>
                         </div>

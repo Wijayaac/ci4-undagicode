@@ -82,7 +82,7 @@
                     <!-- Field picture type file : image -->
                     <div class="form-group">
                         <label for="">Picture</label>
-                        <img id="placeholder" src="<?= base_url('uploads/' . $product['image']) ?>" class="img-thumbnail" alt="your image" /></br></br>
+                        <img id="placeholder" src="<?= base_url('uploads/' . $product['image']) ?>" style="width: 100px; height: 75px;" class="img-thumbnail" alt="your image" /></br></br>
                         <input type="file" class="form-control-file" accept="image/*" id="inputImage" name="productImage" onchange="readURL(this);">
                         <span class="text-danger small" id="errorImage"></span>
                     </div>
@@ -154,36 +154,78 @@
             $('#updateProduct').prop('disabled');
             $.ajax({
                 type: "POST",
-                url: "<?= site_url('product/validation') ?>",
+                url: "<?= site_url('product/update') ?>",
                 data: new FormData(this),
                 dataType: "json",
                 contentType: false,
                 cache: false,
                 processData: false,
                 success: function(response) {
-                    result(response);
+                    switch (response.result) {
+                        case 1:
+                            let close = confirm(response.message);
+                            if (close) {
+                                window.location.href = '<?= site_url('/product') ?>';
+                            }
+                            break;
+                        case 2:
+                            $('#messageInfo').html(response.message);
+                            break;
+                        default:
+                            var inputError = response.data;
+                            if (response.message.errorName !== '') {
+                                $("#errorName").html(response.message.errorName);
+                            }
+                            if (response.message.errorPrice !== '') {
+                                $('#errorPrice').html(response.message.errorPrice);
+                            }
+                            if (response.message.errorWeight !== '') {
+                                $('#errorWeight').html(response.message.errorWeight);
+                            }
+                            if (response.message.errorCategory !== '') {
+                                $('#errorCategory').html(response.message.errorCategory);
+                            }
+                            if (response.message.errorTag !== '') {
+                                $('#errorTag').html(response.message.errorTag);
+                            }
+                            if (response.message.errorStock !== '') {
+                                $('#errorStock').html(response.message.errorStock);
+                            }
+                            if (response.message.errorDescription !== '') {
+                                $('#errorDescription').html(response.message.errorDescription);
+                            }
+                            if (response.message.errorImage !== '') {
+                                $('#errorImage').html(response.message.errorImage);
+                            }
+                            if (response.message.errorSeller !== '') {
+                                $('#errorSeller').html(response.message.errorSeller);
+                            }
+                            console.log(response.data);
+                            $(document).ready(function() {
+                                $("#inputName").val(response.data.product_name);
+                                $("#inputPrice").val(response.data.price);
+                                $("#inputWeight").val(response.data.weight);
+                                $("#inputCategory").val(response.data.category);
+                                $("#inputStock").val(response.data.stock);
+                                if (response.data.seller == 'sumarecon store') {
+                                    $('#inputSellerTrue').prop('checked', true);
+                                } else {
+                                    $('#inputSellerFalse').prop('checked', true);
+
+                                }
+                                tinymce.get("inputDescription").setContent(response.data.description);
+                                tinymce.get("inputTag").setContent(response.data.tag)
+                            });
+                            break;
+                    }
+                    $('#addProduct').html('Save');
+                    $('#addProduct').prop('enabled');
+
+                    document.getElementById("formAdd").reset();
                 }
             });
         });
     });
-
-    function result(response) {
-        switch (response.result) {
-            case 1:
-                let close = confirm(response.message);
-                if (close) {
-                    window.location.href = '<?= site_url('/product') ?>';
-                }
-                break;
-            default:
-                $('#messageInfo').html(response.message);
-                break;
-        }
-        $('#updateProduct').html('Save');
-        $('#updateProduct').prop('enabled');
-
-        document.getElementById("formUpdate").reset();
-    }
 </script>
 <!-- close button script -->
 <script>

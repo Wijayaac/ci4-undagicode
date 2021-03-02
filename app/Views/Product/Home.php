@@ -37,11 +37,11 @@
                 <!-- Search Bar -->
                 <ul class="navbar-nav ml-auto pr-4">
                     <li class="nav-item">
-                        <form class="form-inline ml-3" action="<?= base_url('/product/search') ?>">
+                        <form class="form-inline ml-3" method="POST" id="formSearch">
                             <div class="input-group input-group-sm">
-                                <input class="form-control form-control-navbar rounded" name="search" type="search" placeholder="name eg : t-shirt" aria-label="Search">
+                                <input class="form-control form-control-navbar rounded" name="searchItem" type="text" placeholder="name eg : t-shirt" aria-label="Search">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary rounded" type="submit">
+                                    <button class="btn btn-outline-secondary rounded" id="searchItem">
                                         <i class="fas fa-search"></i>
                                     </button>
                                 </div>
@@ -72,7 +72,7 @@
                     <tbody class="master-data" id="master-data">
                         <!-- Get data we pass from controller using forEach method -->
                         <?php foreach ($products as $item) : ?>
-                            <tr>
+                            <tr class="hidden">
                                 <td class="text-capitalize"> <?= $item['product_name'] ?></td>
                                 <td class="text-capitalize"> <?= $item['price'] ?></td>
                                 <td class="text-capitalize"> <?= $item['weight'] ?></td>
@@ -104,6 +104,73 @@
 </div>
 
 <script type="text/javascript">
+    $('#formSearch').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "<?= site_url('product/search') ?>",
+            data: new FormData(this),
+            dataType: "json",
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(response) {
+                $(".hidden").css("display", "none");
+                response.map(product => {
+                    $("#dataList").find('tbody')
+                        .append($('<tr>')
+                            .addClass('hidden')
+                            .append($('<td>')
+                                .text(product.product_name)
+                            )
+                            .append($('<td>')
+                                .text(product.price)
+                            )
+                            .append($('<td>')
+                                .text(product.weight)
+                            )
+                            .append($('<td>')
+                                .text(product.category)
+                            )
+                            .append($('<td>')
+                                .html(product.tag)
+                            )
+                            .append($('<td>')
+                                .text(product.stock)
+                            )
+                            .append($('<td>')
+                                .html(product.description)
+                            )
+                            .append($('<td>')
+                                .text(product.seller)
+                            )
+                            .append($('<td>')
+
+                                .append($('<img>')
+                                    .attr('src', `<?= base_url('uploads/') ?>/${product.image}`)
+                                    .addClass('img-thumbnail w-50')
+                                )
+                            )
+                            .append($('<td>')
+                                .append($('<a>')
+                                    .attr('href', `<?= site_url('/') ?>/edit/${product.id}`)
+                                    .addClass('btn btn-outline-warning btn-lg m-2')
+                                    .append($('<i>')
+                                        .addClass('fas fa-magic fa-xs')
+                                    ))
+                                .append($('<a>')
+                                    .attr('href', `<?= site_url('/') ?>/delete/${product.id}`)
+                                    .addClass('btn btn-outline-danger btn-lg m-2')
+                                    .append($('<i>')
+                                        .addClass('fas fa-trash fa-xs')
+                                    ))
+                            )
+                        );
+
+                })
+            }
+        });
+    });
     // *Calling add method using jQuery ajax request
     // TODO : if success showing modal form add, else error vice versa
     $('.master-data').on('click', '.btn-add', function(e) {
@@ -151,11 +218,4 @@
         });
     });
 </script>
-<script>
-    $(document).ready(function() {
-        $('#dataList').DataTable();
-    });
-</script>
-<link rel="stylesheet" type="text/css" src="<?= base_url() ?>assets/css/jquery.dataTables.min.css">
-<script src="<?= base_url() ?>assets/js/jquery.dataTables.min.js"></script>
 <?= $this->endSection() ?>
