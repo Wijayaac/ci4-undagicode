@@ -115,6 +115,7 @@
             cache: false,
             processData: false,
             success: function(response) {
+                console.log(response);
                 $(".hidden").css("display", "none");
                 response.map(product => {
                     $("#dataList").find('tbody')

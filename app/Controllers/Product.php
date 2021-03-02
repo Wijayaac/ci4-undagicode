@@ -54,35 +54,14 @@ class Product extends BaseController
     public function search()
     {
         // @search get data from input post request
-
-        $value     = $this->request->getVar('search');
+        $value     = $this->request->getVar('searchItem');
 
         // @data get data from model class
         // * use getSearch method with parameter(input value @search)
         $products = $this->modelProduct->getSearch($value);
-        // foreach ($products->getResult('array') as $product) {
 
-        //     $response = "
-        // <tr>
-        //                         <td class='text-capitalize'>" . $product['product_name'] . "</td>
-        //                         <td class='text-capitalize'>" . $product['price'] . "</td>
-        //                         <td class='text-capitalize'>" . $product['weight'] . "</td>
-        //                         <td class='text-capitalize'>" . $product['category'] . "</td>
-        //                         <td class='text-capitalize'>" . $product['tag'] . "</td>
-        //                         <td class='text-capitalize'>" . $product['stock'] . "</td>
-        //                         <td class='text-capitalize'>" . $product['description'] . "</td>
-        //                         <td class='text-capitalize'>" . $product['seller'] . "</td>
-        //                         <td> <img src='" . base_url('uploads/' . $product['image'] . '') . "' class='img-fluid w-50' alt='' srcset=''></td>
-        //                         <td>
-        //                             <a id='btn-edit' href='javascript:;' data=" . site_url('product/edit/' . $product['id']) . " class='btn btn-outline-warning btn-lg m-2'><i class='fas fa-magic fa-xs'></i></a>
-        //                             <a id='btn-trash' href='javascript:;' data=" . site_url('product/delete/' . $product['id']) . " class='btn btn-outline-danger btn-lg m-2'><i class='fas fa-trash fa-xs'></i></a>
-        //                         </td>
-        //                     </tr>
-        // ";
-        // }
         // *return view method which is render the Views page
         //  also passing the data we get before
-        // return $response;
         return $this->response->setJSON($products);
     }
     /*
@@ -434,78 +413,6 @@ class Product extends BaseController
                     'seller'        => $productSeller,
 
                 ]
-            ];
-        }
-        // return json_encode(var_dump($this->dbAffectedRows()));
-        return $this->response->setJSON($response);
-    }
-    public function validation()
-    {
-
-        $productId          = $this->request->getVar('id');
-        $productName        = $this->request->getVar('productName');
-        $productPrice       = $this->request->getVar('productPrice');
-        $productWeight      = $this->request->getVar('productWeight');
-        $productCategory    = $this->request->getVar('productCategory');
-        $productStock       = $this->request->getVar('productStock');
-        $productTag         = $this->request->getVar('productTag');
-        $productDescription = $this->request->getVar('productDescription');
-        $productSeller      = $this->request->getVar('productSeller');
-
-        $oldData        = $this->modelProduct->find($productId);
-        $oldImage       = $oldData['image'];
-        // *compare image data old and new one
-        // TODO : if there is no image inserted, so the image not updated
-        // TODO : if there is an image inserted, and the image before is not 'untitled.png' 
-        // so delete that image from /uploads directory
-        // TODO : if there is an image inserted, and the image before is 'untitled.png',
-        // just move the new image into /uploads directory
-        $imageFile  = $this->request->getFile('productImage');
-
-        if ($imageFile->getError() === 4) {
-            $imageName = $oldImage;
-        } elseif ($oldImage != 'untitled.png') {
-            unlink('uploads/' . $oldImage);
-
-            $imageName = $imageFile->getRandomName();
-            $imageFile->move('uploads/', $imageName);
-        } else {
-            $imageName = $imageFile->getRandomName();
-            $imageFile->move('uploads/', $imageName);
-        }
-
-        // @data get data from user input and 
-        // *adding into an array
-
-        $data = [
-            'product_name'  => $productName,
-            'price'         => $productPrice,
-            'weight'        => $productWeight,
-            'category'      => $productCategory,
-            'tag'           => $productTag,
-            'stock'         => $productStock,
-            'description'   => $productDescription,
-            'image'         => $imageName,
-            'seller'        => $productSeller,
-
-        ];
-
-        // *Check if @data can added into database
-        // using insert method built-in CodeIgniter
-        // @param insert method (data that we want insert onto database array type)
-        //  TODO : if @data added redirect into index method / Home Page
-        // TODO : if @data can't added show an error message
-        $this->modelProduct->update($productId, $data);
-        // var_dump($this->dbAffectedRows());
-        if ($this->dbAffectedRows() == 1) {
-            $response = [
-                'result'   => 1,
-                'message'   => "Product has been updated"
-            ];
-        } else {
-            $response = [
-                'result'   => 2,
-                'message'   => "Product has not been updated"
             ];
         }
         // return json_encode(var_dump($this->dbAffectedRows()));

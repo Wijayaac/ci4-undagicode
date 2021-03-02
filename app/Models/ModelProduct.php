@@ -30,6 +30,9 @@ class ModelProduct extends Model
     {
         // TODO : Check if @value is not empty string, and then get the data
         // TODO : Check if @value is empty string, and then get all data 
-        return $this->db->query("SELECT *  FROM `master_product` WHERE `product_name` LIKE '%" . $value . "%' OR `description` LIKE  '%" . $value . "%' OR `stock` LIKE  '%" . $value . "%' ORDER BY `created_at` DESC")->getResult();
+        return $this->db->query("SELECT *  FROM `master_product` WHERE 
+        `product_name` LIKE '%" . $value . "%' OR 
+        `description` LIKE  '%" . $value . "%' OR 
+        `stock` LIKE  '%" . $value . "%' ORDER BY `created_at` DESC")->getResult();
     }
 }
