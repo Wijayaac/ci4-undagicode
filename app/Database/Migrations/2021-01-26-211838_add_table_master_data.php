@@ -42,7 +42,7 @@ class AddTableMasterData extends Migration
 			],
 			'description' => [
 				'type'			=> 'TEXT',
-				'constraint'	=> 1000
+				'constraint'	=> 0,
 			],
 			'image' => [
 				'type'			=> 'VARCHAR',
@@ -52,7 +52,7 @@ class AddTableMasterData extends Migration
 				'type'			=> 'VARCHAR',
 				'constraint'	=> 128
 			],
-			'created_at DATETIME default CURRENT_TIMESTAMP',
+			'created_at DATE default CURRENT_TIMESTAMP',
 			'updated_at DATETIME default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'
 		]);
 

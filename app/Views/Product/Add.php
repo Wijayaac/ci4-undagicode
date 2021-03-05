@@ -14,12 +14,17 @@
                     <?= csrf_field() ?>
                     <div class="modal-body">
                         <div class="form-group">
+                            <label for="productName">Product ID</label>
+                            <input type="number" name="id" required>
+                            <span id="errorId" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
                             <!-- Field id : hidden , Field Product Name -->
-                            <input type="hidden" name="id" value="<?= rand() ?>">
                             <label for="productName">Product Name</label>
                             <input type="text" name="productName" class="form-control" id="inputName" required>
                             <span id="errorName" class="text-danger small"></span>
                         </div>
+
                         <!-- Field Price type number -->
                         <div class="form-group">
                             <label for="">Price</label>

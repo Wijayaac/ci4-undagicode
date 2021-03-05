@@ -274,9 +274,37 @@ class Product extends BaseController
         // @oldId, @imageFile, @newProduct get from user input form
         // @oldData, @oldImage, @oldName get from database data
         // * we get all of these data to compare, it so we can update it on database
+        $productId          = $this->request->getVar('id');
+        $productName        = $this->request->getVar('productName');
+        $productPrice       = $this->request->getVar('productPrice');
+        $productWeight      = $this->request->getVar('productWeight');
+        $productCategory    = $this->request->getVar('productCategory');
+        $productStock       = $this->request->getVar('productStock');
+        $productTag         = $this->request->getVar('productTag');
+        $productDescription = $this->request->getVar('productDescription');
+        $productSeller      = $this->request->getVar('productSeller');
 
+        $oldData        = $this->modelProduct->find($productId);
+        $oldImage       = $oldData['image'];
+        $oldName        = $oldData['product_name'];
+
+        if ($productName == $oldName) {
+            $rules  = 'required';
+            $errors = [
+                'required' => 'Please insert product name'
+            ];
+        } else {
+            $rules  = 'is_unique[master_product.product_name]';
+            $errors = [
+                'is_unique' => 'Please insert another product'
+            ];
+        }
 
         $isValid = $this->validate([
+            'productName'   => [
+                'rules'  =>  $rules,
+                'errors' =>  $errors
+            ],
             'productPrice' => [
                 'rules'  => 'integer',
                 'errors' => [
@@ -359,15 +387,15 @@ class Product extends BaseController
             // *adding into an array
 
             $data = [
-                'product_name'  => $this->request->getVar('productName'),
-                'price'         =>  $this->request->getVar('productPrice'),
-                'weight'        => $this->request->getVar('productWeight'),
-                'category'      => $this->request->getVar('productCategory'),
-                'tag'           => $this->request->getVar('productTag'),
-                'stock'         => $this->request->getVar('productStock'),
-                'description'   => $this->request->getVar('productDescription'),
+                'product_name'  => $productName,
+                'price'         => $productPrice,
+                'weight'        => $productWeight,
+                'category'      => $productCategory,
+                'tag'           => $productTag,
+                'stock'         => $productStock,
+                'description'   => $productDescription,
                 'image'         => $imageName,
-                'seller'        => $this->request->getVar('productSeller'),
+                'seller'        => $productSeller,
 
             ];
 
