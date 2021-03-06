@@ -12,8 +12,8 @@ class AddTableMasterEmployee extends Migration
 			'id' => [
 				'type' 			=> 'INTEGER',
 				'constraint'	=> 5,
-				'unsigned'		=> 'true',
-				'auto_increment' => 'true'
+				'unsigned'		=> true,
+				'auto_increment' => true
 			],
 			'employee_name' => [
 				'type'			=> 'VARCHAR',
@@ -23,17 +23,17 @@ class AddTableMasterEmployee extends Migration
 				'type'			=> 'TEXT',
 				'constraint'	=> 0,
 			],
-			'phone_number' => [
+			'phone' => [
 				'type'			=> 'CHAR',
 				'constraint'	=> 12
 			],
-			'email_address' => [
+			'email' => [
 				'type'			=> 'CHAR',
 				'constraint'	=> 64
 			],
 			'gender' => [
 				'type'			=> 'BOOLEAN',
-				'null'			=> 'false',
+				'null'			=> false,
 			],
 			'cv' => [
 				'type'			=> 'VARCHAR',

@@ -5,7 +5,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h5 class="modal-title">Edit Data</h5>
+                <h5 class="modal-title">Edit Product</h5>
                 <button type="button" class="close close-modal" data-dismiss="modal">&times;</button>
             </div>
 

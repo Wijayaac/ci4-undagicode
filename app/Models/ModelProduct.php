@@ -26,13 +26,4 @@ class ModelProduct extends Model
         * getSearch method for searching a specific data base on @value param
         @value get data from user input on search field
     */
-    public function getSearch($value)
-    {
-        // TODO : Check if @value is not empty string, and then get the data
-        // TODO : Check if @value is empty string, and then get all data 
-        return $this->db->query("SELECT *  FROM `master_product` WHERE 
-        `product_name` LIKE '%" . $value . "%' OR 
-        `description` LIKE  '%" . $value . "%' OR 
-        `stock` LIKE  '%" . $value . "%' ORDER BY `created_at` DESC")->getResult();
-    }
 }

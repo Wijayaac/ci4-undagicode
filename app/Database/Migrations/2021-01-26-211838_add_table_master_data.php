@@ -13,8 +13,8 @@ class AddTableMasterData extends Migration
 			'id' => [
 				'type' 			=> 'CHAR',
 				'constraint'	=> 32,
-				'unsigned'		=> 'true',
-				'auto_increment' => 'false'
+				'unsigned'		=> false,
+				'auto_increment' => false
 			],
 			'product_name' => [
 				'type'			=> 'VARCHAR',

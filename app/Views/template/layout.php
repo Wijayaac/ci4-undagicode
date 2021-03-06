@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?= base_url('assets/icons/css/all.min.css') ?>" />
+    <!-- DataTales CSS -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/datatables.min.css') ?>" />
     <!-- Bootstrap V.4.3.1 CDN -->
     <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
     <!-- Custom style css for simple sidebar -->
@@ -18,6 +20,8 @@
     <script src="https://cdn.tiny.cloud/1/bmq852wo3zyrki97cj1ke2rjji5q65rayhgfv3bfk75fjgyv/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <!-- jQuery Scripts -->
     <script src="<?= base_url('assets/js/jquery.min.js') ?>"></script>
+    <!-- jQuery DataTables Scripts -->
+    <script src="<?= base_url('assets/js/datatables.min.js') ?>"></script>
 
 </head>
 

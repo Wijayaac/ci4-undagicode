@@ -32,37 +32,18 @@ class Product extends BaseController
         // @pager Variable for creating pagination
         // *Using CodeIgniter built-in method
 
-        $pager = \Config\Services::pager();
-
         // *getData from model using @pager method 
         // @paginate method parameter (@number of item showing first, template for showing pagination)
         // @pager method use for pointing into another data
 
         $data = [
-            'products' => $this->modelProduct->paginate(4, 'bootstrap'),
-            'pager'    => $this->modelProduct->pager,
+            'products' => $this->modelProduct->findAll(),
         ];
 
         // *return view method which is render the Views page
         //  also passing the data we get before
 
         return view('Product/Home', $data);
-    }
-    /*
-        * search method for searching data base on what's user input
-    */
-    public function search()
-    {
-        // @search get data from input post request
-        $value     = $this->request->getVar('searchItem');
-
-        // @data get data from model class
-        // * use getSearch method with parameter(input value @search)
-        $products = $this->modelProduct->getSearch($value);
-
-        // *return view method which is render the Views page
-        //  also passing the data we get before
-        return $this->response->setJSON($products);
     }
     /*
         * add method for sending Add form Modal to user

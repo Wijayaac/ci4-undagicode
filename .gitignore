@@ -137,5 +137,6 @@ public/dist/*
 public/docs/*
 public/plugins/*
 public/uploads/*
+public/uploads/document/*
 
 
