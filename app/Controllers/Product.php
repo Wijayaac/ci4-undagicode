@@ -134,7 +134,7 @@ class Product extends BaseController
             if ($imageFile->getError() == 4) {
                 $imageName = 'untitled.png';
             } else {
-                $imageName = $imageFile->getRandomName();
+                $imageName = $productId . '.' . $imageFile->guessExtension();
                 $imageFile->move('uploads/', $imageName);
             }
 
@@ -357,10 +357,10 @@ class Product extends BaseController
             } elseif ($oldImage != 'untitled.png') {
                 unlink('uploads/' . $oldImage);
 
-                $imageName = $imageFile->getRandomName();
+                $imageName = $productId . '.' . $imageFile->guessExtension();
                 $imageFile->move('uploads/', $imageName);
             } else {
-                $imageName = $imageFile->getRandomName();
+                $imageName = $productId . '.' . $imageFile->guessExtension();
                 $imageFile->move('uploads/', $imageName);
             }
 
